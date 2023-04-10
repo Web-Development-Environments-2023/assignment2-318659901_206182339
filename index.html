@@ -1,31 +1,253 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
-<head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chicken Invaders</title>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <link rel="stylesheet" type="text/css" href="registerAndLogin.css" />
+        <script type="text/javascript" src="jsCode.js"></script>
+    </head>
+
+<body>
+    <div id="menu">
+        <table width=100%>
+            <td>
+                <img src="/items/looney toons logo.png" width="170" height="170" > 
+            </td>
+            <td width = 20%>
+                <div id="headline"> Shooting Toones</div>
+            </td>
+            <td width = 20%>
+            </td>
+            <td style="color: azure;" width="5%"> 206182339 </td>
+        </table>
+    </div>
+    <div id="secondmenu">
+        <h1> Menu </h1>
+        <p>Please choose an option below:</p>
+        <div>
+            <button onclick="registerButton()">Register</button>
+            <button onclick="logInButton()">Sign In</button>
+        </div>
+    </div>
+    <div id="login">
+        <form id="loginForm">
+            <img src="/items/looney toons logo.png" width="170" height="170" > 
+
+            <label for="username">Username:</label>
+            <input type="text" id="usernamelog" name="username"><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="passwordlog" name="password"><br>
+
+            <button type="button" onclick="signIn()">Login</button>
+            <button type="button" onclick="goToMainPage()">Previous</button>
+        </form>
+    </div>
+    <div id="registration">
+        <form id="registrationForm">
+            <img src="/items/looney toons logo.png" width="170" height="170" > 
+
+            <label for="firstname">First name:</label>
+            <input type="text" id="firstname" name="firstname"><br>
+
+            <label for="lastname">Last name:</label>
+            <input type="text" id="lastname" name="lastname"><br>
+
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username"><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password"><br>
+
+            <label for="confirmpassword">Password Confirmation:</label>
+            <input type="password" id="confirmpassword" name="confirmpassword"><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email"><br>
+
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob"><br>
+
+            <button type="button" onclick="saveUser()">Register</button>
+            <button type="button" onclick="goToMainPage()">Previous</button>
+        </form>
+    </div>
+    
+</body>
+</html> -->
+
+<!DOCTYPE html>
+
+<html>
+  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chicken Invaders</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
-    <script type="text/javascript" src="jsCode.js"></script>
-</head>
-<body>
-    <div id="menu">
+    <link rel="stylesheet" type="text/css" href="registerAndLogin.css" />
+    <script src="jsCode.js"></script>
+  </head>
+  <body>
+    <div id="menu" class="start">
         <table width=100%>
-              <td>
-                  <img src="/items/looney toons logo.png" width="170" height="170" > 
-              </td><td width = 20%>
-                   <div id="headline"> Shooting_Toones</a>
-              </td><td width = 20%>
-              </td> <td style="color: azure;" width="5%"> 206182339 </td>
+            <td>
+                <img src="/items/looney toons logo.png" width="170" height="170" > 
+            </td>
+            <td width = 20%>
+                <div id="headline"> Shooting Toones</div>
+            </td>
+            <td width = 20%>
+            </td>
+            <td style="color: azure;" width="5%"> 206182339 </td>
         </table>
+      <li><a id="Home_menu" href="#">Home</a></li>
+      <li><a id="About_menu" href="#">About</a></li>
+      <li>
+        <a id="Configuration_menu" href="#">Configuration</a>
+      </li>
+      <li><a id="Login_menu" href="#">Login</a></li>
+      <li><a id="SignUp_menu" href="#">Sign up</a></li>
     </div>
-    <div id="secondmenu">
-    <h1> Menu </h1>
-    <p>Please choose an option below:</p>
-    <div>
-        <button onclick="registerButton()">Register</button>
-        <button onclick="logInButton()">Sign In</button>
+
+    <div id="Welcome" class="start">
+      
+      <p>You need to Login so you can start playing.</p>
+      <button id="Login_btn">Login</button>
+      <button id="SignUp_btn">SignUp</button>
     </div>
+    <!-- login -->
+    <div id="Login" style="display: none">
+      <h1>Login</h1>
+      <form>
+        <div class="form">
+          <label for="username">Username:</label>
+          <input type="text" name="username" id="Login_username" />
+        </div>
+        <div class="form">
+          <label for="password">Password:</label>
+          <input type="password" name="password" id="Login_password" />
+        </div>
+        <div class="form">
+          <input type="button" value="Login" id="SumbitLogin" />
+        </div>
+      </form>
     </div>
-</body>
+
+     <!-- register -->
+    <div id="SignUp" style="display: none">
+      <h1>Sign Up</h1>
+      <form>
+        <div class="form">
+          <label for="username">Username:</label>
+          <input type="text" name="username" id="SignUp_username" required />
+        </div>
+        <div class="form">
+          <label for="password">Password:</label>
+          <input
+            type="password"
+            name="password"
+            id="SignUp_password"
+            required
+          />
+        </div>
+        <div class="form">
+          <label for="Verify">Verify:</label>
+          <input
+            type="password"
+            name="verify"
+            id="SignUp_confirmPassword"
+            required
+          />
+        </div>
+        <div class="form">
+          <label for="FirstName">First Name:</label>
+          <input
+            type="FirstName"
+            name="FirstName"
+            id="SignUp_firstname"
+            required
+          />
+        </div>
+        <div class="form">
+          <label for="LastName">Last Name:</label>
+          <input
+            type="LastName"
+            name="LastName"
+            id="SignUp_lastname"
+            required
+          />
+        </div>
+        <div class="form">
+          <label for="Email">Email:</label>
+          <input type="Email" name="Email" id="SignUp_email" required />
+        </div>
+        <div class="form">
+          <label for="BirthDay">Birth Day:</label>
+          <input
+            type="date"
+            name="BirthDay"
+            id="SignUp_birthday"
+            required
+          />
+        </div>
+        <div class="form">
+          <input type="button" value="SignUp" id="SumbitSignUp" />
+        </div>
+      </form>
+    </div>
+    <div class="Game" id="Game" style="display: none">
+      <h1 style="padding: 15px">Spaceship Game</h1>
+      <table>
+        <tr>
+          <td class="settings">
+            <table>
+              <tr>
+                <td><button id="startButton">Start Game</button></td>
+              </tr>
+              <tr>
+                <td><button id="stopButton">Stop Game</button></td>
+              </tr>
+
+              <tr>
+                <td><p id="Score" style="display: none"></p></td>
+              </tr>
+            </table>
+          </td>
+          <td class="screen">
+            <canvas id="theCanvas"> </canvas>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <dialog id="About" style="display: none">
+      <form method="dialog">
+        <h1>About</h1>
+        <p id="dialogText">
+       text dialog
+        </p>
+        <menu>
+          <button id="dialogOK">Close</button>
+        </menu>
+      </form>
+    </dialog>
+    <div id="Configuration"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css"
+    />
+
+    <script>
+      $(document).ready(function () {
+        $("#BirthDay").datepicker();
+      });
+    </script>
+  </body>
 </html>
