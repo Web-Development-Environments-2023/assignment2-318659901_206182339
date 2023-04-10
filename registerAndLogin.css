@@ -15,7 +15,8 @@ form {
     border-radius: 10px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
   }
-  
+  input[type="firstname"],
+  input[type="lastname"],
   input[type="text"],
   input[type="password"],
   input[type="email"],
@@ -50,4 +51,32 @@ form {
   button[type="submit"]:hover {
     background-color: #3e8e41;
   }
+  
+  .previous-btn {
+    width: 30px;
+    height: 30px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .previous-btn::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid #333333;
+    border-left: 2px solid #333333;
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -5px;
+    margin-left: -5px;
+  }
+  
   

@@ -254,16 +254,16 @@ function setupGame() {
     .getElementById("Configuration_menu")
     .addEventListener("click", goConfiguration);
 
-  document.getElementById("Login_menu").addEventListener("click", goLogin);
-  document.getElementById("SignUp_menu").addEventListener("click", goSignUp);
+  // document.getElementById("Login_menu").addEventListener("click", goLogin);
+  // document.getElementById("SignUp_menu").addEventListener("click", goSignUp);
 
   //loginpress
   document.getElementById("Login_btn").addEventListener("click", goLogin);
   document.getElementById("SignUp_btn").addEventListener("click", goSignUp);
 
-  document.getElementById("SumbitLogin").addEventListener("click", sumbitLogin);
+  document.getElementById("SubmitLogin").addEventListener("click", submitLogin);
   document
-    .getElementById("SumbitSignUp")
+    .getElementById("SubmitSignUp")
     .addEventListener("click", sumbitSignUp);
 
   document.getElementById("startButton").addEventListener("click", newGame);

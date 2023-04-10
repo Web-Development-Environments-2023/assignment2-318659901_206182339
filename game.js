@@ -69,88 +69,88 @@ function updateFireImages() {
     fireImages = fireImages.filter(function(fireImage) {
         return fireImage.y > -fireImage.height;
     });
-}
+};
 
 function drawFireImages() {
     for (var i = 0; i < fireImages.length; i++) {
         var fireImage = fireImages[i];
         ctx.drawImage(fireImage.image, fireImage.x, fireImage.y, fireImage.width, fireImage.height);
     }
-}
+};
 
 
-function draw()
-{
-   canvas.width = canvas.width; // clears the canvas (from W3C docs)
+// Update game objects - change player position based on key pressed
+function updatePositions(modifier) {
+	if ((38 in keysDown) ) { // Player holding up
+		if(hero.y>=20)
+		hero.y -= hero.speed * modifier;
+	}
+	if ((40 in keysDown) ) { // Player holding down
+		if(hero.y<=440)
+		hero.y += hero.speed * modifier;
+	}
+	if (37 in keysDown) { // Player holding left
+		if(hero.x>=20)
+		hero.x -= hero.speed * modifier;
+	}
+	if (39 in keysDown) { // Player holding right
+		if(hero.x<=492)
+		hero.x += hero.speed * modifier;	
+	}
 
-   // display time remaining
-   context.fillStyle = "black";
-   context.font = "bold 24px serif";
-   context.textBaseline = "top";
-   context.fillText("Time remaining: " + timeLeft, 5, 5);
 
-   // if a cannonball is currently on the screen, draw it
-   if (cannonballOnScreen)
-   { 
-      context.fillStyle = "gray";
-      context.beginPath();
-      context.arc(cannonball.x, cannonball.y, cannonballRadius, 
-         0, Math.PI * 2);
-      context.closePath();
-      context.fill();
-   } // end if
+  // Check if player and monster collider
+	if (
+		hero.x <= (monster.x + 32)
+		&& monster.x <= (hero.x + 32)
+		&& hero.y <= (monster.y + 32)
+		&& monster.y <= (hero.y + 32)
+	) {
+		++monstersCaught;
+		obj.play();//play music
+		reset();
+	}
 
-   // draw the cannon barrel
-   context.beginPath(); // begin a new path
-   context.strokeStyle = "black";
-   context.moveTo(0, canvasHeight / 2); // path origin
-   context.lineTo(barrelEnd.x, barrelEnd.y); 
-   context.lineWidth = lineWidth; // line width
-   context.stroke(); //draw path
-
-   // draw the cannon base
-   context.beginPath();
-   context.fillStyle = "gray";
-   context.arc(0, canvasHeight / 2, cannonBaseRadius, 0, Math.PI * 2);
-   context.closePath();
-   context.fill();
-
-   // draw the blocker
-   context.beginPath(); // begin a new path
-   context.moveTo(blocker.start.x, blocker.start.y); // path origin
-   context.lineTo(blocker.end.x, blocker.end.y); 
-   context.lineWidth = lineWidth; // line width
-   context.stroke(); //draw path
-
-   // initialize currentPoint to the starting point of the target
-   var currentPoint = new Object();
-   currentPoint.x = target.start.x;
-   currentPoint.y = target.start.y; 
-
-   // draw the target
-   for (var i = 0; i < TARGET_PIECES; ++i)
+	--timeLeft;
+	 // if the timer reached zero
+   if (timeLeft <= 0)
    {
-      // if this target piece is not hit, draw it
-      if (!hitStates[i])
-      {
-         context.beginPath(); // begin a new path for target
+      stopTimer();
+      alert("You lost"); // show the losing dialog
+   } // end
+};
 
-         // alternate coloring the pieces yellow and blue
-         if (i % 2 === 0)
-            context.strokeStyle = "yellow";
-         else
-            context.strokeStyle = "blue";
 
-         context.moveTo(currentPoint.x, currentPoint.y); // path origin
-         context.lineTo(currentPoint.x, currentPoint.y + pieceLength); 
-         context.lineWidth = lineWidth; // line width
-         context.stroke(); // draw path
-      } // end if
-	 
-      // move currentPoint to the start of the next piece
-      currentPoint.y += pieceLength;
-   } // end for
-} // end function draw
+// Draw everything on the canvas
+function draw() {
+
+		
+		if(document.getElementById("rdbimg").checked)
+{
+		ctx.drawImage(bgImage, 0, 0);
+	
+	}
+else
+{
+	clear();
+	DrawCircles();
+	MoveCircles(5);
+}
+		ctx.drawImage(heroImage, hero.x, hero.y);
+	
+		ctx.drawImage(monsterImage, monster.x, monster.y);
+	
+
+	// Score
+	ctx.fillStyle = "rgb(250, 250, 250)";
+	ctx.font = "24px Helvetica";
+	ctx.textAlign = "left";
+	ctx.textBaseline = "top";
+	ctx.fillText("Goblins caught: " + monstersCaught + " Time left :" +  timeLeft/1000 , 32, 32);
+	
+	
+};
+
 
 window.addEventListener("load",newGame,false);
 
