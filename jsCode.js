@@ -254,17 +254,16 @@ function setupGame() {
     .getElementById("Configuration_menu")
     .addEventListener("click", goConfiguration);
 
-  // document.getElementById("Login_menu").addEventListener("click", goLogin);
-  // document.getElementById("SignUp_menu").addEventListener("click", goSignUp);
+
 
   //loginpress
   document.getElementById("Login_btn").addEventListener("click", goLogin);
   document.getElementById("SignUp_btn").addEventListener("click", goSignUp);
 
-  document.getElementById("SubmitLogin").addEventListener("click", submitLogin);
+  document.getElementById("submitLogin").addEventListener("click", submitLogin);
   document
-    .getElementById("SubmitSignUp")
-    .addEventListener("click", sumbitSignUp);
+    .getElementById("submitSignUp")
+    .addEventListener("click", submitSignUp);
 
   document.getElementById("startButton").addEventListener("click", newGame);
   document.getElementById("stopButton").addEventListener("click", stopGame);
@@ -307,6 +306,7 @@ function LoadGame() {
   }
   inGame = false;
 }
+
 function muteDivs() {
   document.getElementById("Game").style.display = "none";
   document.getElementById("Login").style.display = "none";
@@ -314,7 +314,7 @@ function muteDivs() {
   document.getElementById("Welcome").style.display = "none";
 }
 
-function sumbitLogin() {
+function submitLogin() {
   let username = document.getElementById("Login_username").value;
   let password = document.getElementById("Login_password").value;
   if (users[username] == undefined) {
@@ -326,7 +326,7 @@ function sumbitLogin() {
     LoadGame();
   }
 }
-function sumbitSignUp() {
+function submitSignUp() {
   let username = document.getElementById("SignUp_username").value;
   let password = document.getElementById("SignUp_password").value;
   let confirmPassword = document.getElementById("SignUp_confirmPassword").value;
