@@ -1,85 +1,121 @@
-#headline {
+/* #headline {
   font-family: "Helvetica Neue", sans-serif;
   font-size: 4em;
   font-weight: bold;
   text-transform: uppercase;
-  color: #f6f6f600;
+  color: #dadada00;
   text-align: center;
   margin-top: 30px;
   letter-spacing: 2px;
   line-height: 1.2;
   text-shadow: 1px 1px #f4f4f4;
-}
+} */
+
 
 
 body {
-    background-image: url("/items/background.png");
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    width: 100vw;
-    margin: 0;
-    padding: 0;
+  background-image: url("/items/background.png");
+  background-size: cover;
+  background-position: center;
+  height: 100vh; /* Add this line */
+  overflow-y: hidden; /* Add this line */
+ 
+  width: 100vw;
+  margin: 0;
+  padding: 0;
 }
 
-
-.Welcome {
-  
-  justify-items: center;
-  align-items: center;
+#menu {
+position: fixed;
+width: 100%;
+height:90px;
+background: #333; /* Change background color to #333 */
+display: block;
+list-style-type: none;
+margin: 0;
+padding: 0;
+overflow: hidden;
+align-items: center;
+align-self: start;
+font-family: Arial, Helvetica, sans-serif;
+}
+.logo {
+float: left;
+padding: 14px 20px;
 }
 
-
-  button {
-    font-size: 20px;
-    color: #fff;
-    background-color: #333;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 5px;
-    margin: 20px 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #555;
-  }
-  
-  /* The modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black with opacity */
+li {
+float: right;
 }
 
-/* Modal content */
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+li a {
+display: inline-block;
+color: white;
+text-align: center;
+padding: 14px 16px;
+text-decoration: none;
 }
 
-/* Close button */
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+li a:hover {
+background-color: #111;
 }
 
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+div {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+height: 100vh;
+width: 100vw;
+/* background-color: #333; */
+}
+
+.form {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+height: 7vh;
+width: 7vw;
+/* background-color: #333; */
+}
+
+.Game {
+display: flex;
+height: 100vh;
+}
+
+.settings {
+width: 15%;
+border: 1px solid rgb(245, 237, 237);
+}
+
+.screen {
+border: 1px solid rgb(250, 249, 249);
+}
+
+table {
+width: 100%;
+height: 100%;
+border-collapse: collapse;
+}
+
+canvas {
+border: 1px solid rgb(252, 248, 248);
+width: 100%;
+height: 100%;
+}
+
+.footer {
+position: fixed;
+bottom: 0;
+width: 100%;
+height: 50px; /* You can adjust the height as needed */
+/* background-color: #333; */
+color: white;
+text-align: center;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: Arial, Helvetica, sans-serif;
 }

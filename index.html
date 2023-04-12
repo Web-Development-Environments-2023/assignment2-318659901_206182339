@@ -1,125 +1,42 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Chicken Invaders</title>
-        <link rel="stylesheet" type="text/css" href="style.css" />
-        <link rel="stylesheet" type="text/css" href="registerAndLogin.css" />
-        <script type="text/javascript" src="jsCode.js"></script>
-    </head>
-
-<body>
-    <div id="menu">
-        <table width=100%>
-            <td>
-                <img src="/items/looney toons logo.png" width="170" height="170" > 
-            </td>
-            <td width = 20%>
-                <div id="headline"> Shooting Toones</div>
-            </td>
-            <td width = 20%>
-            </td>
-            <td style="color: azure;" width="5%"> 206182339 </td>
-        </table>
-    </div>
-    <div id="secondmenu">
-        <h1> Menu </h1>
-        <p>Please choose an option below:</p>
-        <div>
-            <button onclick="registerButton()">Register</button>
-            <button onclick="logInButton()">Sign In</button>
-        </div>
-    </div>
-    <div id="login">
-        <form id="loginForm">
-            <img src="/items/looney toons logo.png" width="170" height="170" > 
-
-            <label for="username">Username:</label>
-            <input type="text" id="usernamelog" name="username"><br>
-
-            <label for="password">Password:</label>
-            <input type="password" id="passwordlog" name="password"><br>
-
-            <button type="button" onclick="signIn()">Login</button>
-            <button type="button" onclick="goToMainPage()">Previous</button>
-        </form>
-    </div>
-    <div id="registration">
-        <form id="registrationForm">
-            <img src="/items/looney toons logo.png" width="170" height="170" > 
-
-            <label for="firstname">First name:</label>
-            <input type="text" id="firstname" name="firstname"><br>
-
-            <label for="lastname">Last name:</label>
-            <input type="text" id="lastname" name="lastname"><br>
-
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username"><br>
-
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password"><br>
-
-            <label for="confirmpassword">Password Confirmation:</label>
-            <input type="password" id="confirmpassword" name="confirmpassword"><br>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email"><br>
-
-            <label for="dob">Date of Birth:</label>
-            <input type="date" id="dob" name="dob"><br>
-
-            <button type="button" onclick="saveUser()">Register</button>
-            <button type="button" onclick="goToMainPage()">Previous</button>
-        </form>
-    </div>
-    
-</body>
-</html> -->
-
 <!DOCTYPE html>
 
+<!-- Fig. 14.26: cannon.html -->
+<!-- Cannon Game HTML5 document. -->
 <html>
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chicken Invaders</title>
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <link rel="stylesheet" type="text/css" href="registerAndLogin.css" />
+    <meta charset="utf-8" />
+    <title>Space Game</title>
+    <style type="text/css">
+        body {
+            background-image: url('/items/background.jpg');
+            background-size: cover;
+            height: 100vh;
+        }
+       
+    </style>
+    <link rel="stylesheet" href="style.css" />
     <script src="jsCode.js"></script>
   </head>
   <body>
     <div id="menu" class="start">
-        <table width=100%>
-            <td>
-                <img src="/items/looney toons logo.png" width="170" height="170" > 
-            </td>
-            <td width = 20%>
-                <div id="headline"> Shooting Toones</div>
-            </td>
-            <td width = 20%>
-            </td>
-            <td style="color: azure;" width="5%"> 206182339 </td>
-        </table>
-      <li ><a id="Home_menu" href="#">Home</a></li>
+      <img src="/items/looney toons logo.png" height="70" alt="Logo" class="logo">
+      <!-- <h1 class="game-title">Space Invaders</h1> -->
+    
+      <li><a id="Home_menu" href="#">Home</a></li>
       <li><a id="About_menu" href="#">About</a></li>
       <li>
         <a id="Configuration_menu" href="#">Configuration</a>
       </li>
-      <!-- <li><a id="Login_menu" href="#">Login</a></li>
-      <li><a id="SignUp_menu" href="#">Sign up</a></li> -->
+      <li><a id="Login_menu" href="#">Login</a></li>
+      <li><a id="SignUp_menu" href="#">Sign up</a></li>
+      <h1 class="game-title">Space Invaders</h1>
     </div>
-
-    <div id="Welcome" class="start" style="text-align: center;">
-      
-      <p style="color: azure;">You need to Login so you can start playing.</p>
+    <div id="Welcome" class="start">
+      <h1>Welcome to Space Invaders Game</h1>
+      <p>You need to Login so you can start playing.</p>
       <button id="Login_btn">Login</button>
       <button id="SignUp_btn">SignUp</button>
     </div>
-    <!-- login -->
     <div id="Login" style="display: none">
       <h1>Login</h1>
       <form>
@@ -132,12 +49,10 @@
           <input type="password" name="password" id="Login_password" />
         </div>
         <div class="form">
-          <input type="button" value="Login" id="submitLogin" />
+          <input type="button" value="Login" id="SumbitLogin" />
         </div>
       </form>
     </div>
-
-     <!-- register -->
     <div id="SignUp" style="display: none">
       <h1>Sign Up</h1>
       <form>
@@ -188,19 +103,19 @@
         <div class="form">
           <label for="BirthDay">Birth Day:</label>
           <input
-            type="date"
+            type="BirthDay"
             name="BirthDay"
             id="SignUp_birthday"
             required
           />
         </div>
         <div class="form">
-          <input type="button" value="SignUp" id="submitSignUp" />
+          <input type="button" value="SignUp" id="SumbitSignUp" />
         </div>
       </form>
     </div>
     <div class="Game" id="Game" style="display: none">
-      <h1 style="padding: 15px">Spaceship Game</h1>
+      <h1 style="padding: 15px">Shooting Tunes</h1>
       <table>
         <tr>
           <td class="settings">
@@ -217,26 +132,57 @@
               </tr>
             </table>
           </td>
-          <td class="screen">
-            <canvas id="theCanvas"> </canvas>
+          <td class="screen" style="height: 80vh;">
+            <canvas id="theCanvas" style="width: 100%; height: 100%;"></canvas>
           </td>
         </tr>
       </table>
     </div>
 
-    <!-- about -->
     <dialog id="About" style="display: none">
       <form method="dialog">
         <h1>About</h1>
         <p id="dialogText">
-       text dialog
+     text will be here
         </p>
         <menu>
           <button id="dialogOK">Close</button>
         </menu>
       </form>
     </dialog>
-    <div id="Configuration"></div>
+    <div id="Configuration">
+       <form id="configForm" onsubmit="LoadGame()">
+        <label for="timelimit">Time Limit (Minutes):</label>
+        <input type="number" id="timelimit" min="2" value="2" style="width: 10ch;"><br/><br/>
+        
+        <label for="shootchange">Shooting Button:</label><br/>
+        <label for="shootchange" id="shootlabel">Space</label>
+        <button id="shootchange">Assign key</button>
+        <label for="shootchange" id="listeninglabel" style="visibility: hidden;">  Assigning key...</label><br/><br/>
+
+        <script>
+          function keydownListener(event) {
+            event.preventDefault();                        
+            if (event.keyCode !== 37 && event.keyCode !== 38 && event.keyCode !== 39 && event.keyCode !== 40) {                 
+              document.getElementById("shootlabel").innerHTML = event.code;
+              document.removeEventListener('keydown', keydownListener);
+              document.getElementById("listeninglabel").style.visibility = "hidden";
+            }
+          }
+        
+          const shootchange = document.querySelector('#shootchange');
+          shootchange.addEventListener('click', () => {
+              event.preventDefault();
+              document.getElementById("listeninglabel").style.visibility = "visible";
+            document.addEventListener('keydown', keydownListener);
+          });
+        </script>
+                        
+        <input type="reset" value="Default Setting" onclick="shootlabel.innerHTML='Space'"><br/>
+        <input type="submit" value="Play!">
+       
+    </form>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
@@ -244,7 +190,9 @@
       rel="stylesheet"
       href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css"
     />
-
+    <footer class="footer">
+      <p>all rights reserved to Sean and Michal. To contact us:</p>
+    </footer>
     <script>
       $(document).ready(function () {
         $("#BirthDay").datepicker();
