@@ -4,6 +4,7 @@ var canvas; // the canvas
 var context; // used for drawing on the canvas
 var canvasWidth;
 var canvasHeight;
+var playerHp;
 
 var floorY;
 var topY;
@@ -48,7 +49,10 @@ var SCORE = 0;
 
 // constants for game play
 
-var TIME_INTERVAL = 1; // screen refresh interval in milliseconds
+// const timeLimitValue = document.getElementById('timelimit');
+// const timeLimitValue = parseInt(timeLimitInput.value);
+
+var TIME_INTERVAL = 10; // screen refresh interval in milliseconds
 var ENEMY_SPEED = 0.05; // Enemy speed multiplier
 var FRIENDLY_SPEED = 3; // Friendly speed multiplier
 var FRIENDLY_FIRE_SPEED = 0.5;
@@ -59,8 +63,8 @@ var EnemyFireARR;
 var FIRE_COUNT=3;
 // variables for the game loop and tracking statistics
 var intervalTimer; // holds interval timer
-var timerCount; // number of times the timer fired since the last second
-var timeLeft; // the amount of time left in seconds
+var timerCount = 0; // number of times the timer fired since the last second
+var timeLeft = 2 * 60; // the amount of time left in seconds
 var shotsFired; // the number of shots the user has fired
 var timeElapsed; // the number of seconds elapsed
 
@@ -303,6 +307,7 @@ function setupGame() {
 // set up interval timer to update game
 function startTimer() {
   intervalTimer = window.setInterval(updatePositions, TIME_INTERVAL);
+
 } // end function startTimer
 
 // terminate interval timer
@@ -310,11 +315,35 @@ function stopTimer() {
   window.clearInterval(intervalTimer);
 } // end function stopTimer
 
+
+
+// function updateTimer() {
+
+//   timeLeft--; // decrement time left
+//   document.getElementById("timeLeft").innerHTML = "Time remaining: " + timeLeft; // update timer text
+//   if (timeLeft <= 0) {
+//     clearInterval(timerId); // stop the timer
+//   }
+
+//   timerCount++;
+//   if (timerCount >= 60) {
+//     timeLeft--;
+//     timerCount = 0;
+//   }
+//   if (timeLeft <= 0) {
+//     clearInterval(timerInterval);
+//     alert("Game over!");
+//     stopTimer();
+//   }
+
+// }
+
 // called by function newGame to scale the size of the game elements
 // relative to the size of the canvas before the game begins
 function resetElements() {
+  playerHp = 100;
   canvas.style.display="flex";
-  FIRE_COUNT=3;
+  FIRE_COUNT=30;
   SCORE=0;
   EnemyFireCount=1;
   EnemyFireARR=[];
@@ -324,8 +353,14 @@ function resetElements() {
   topY = h * 0.6;
   canvasWidth = w;
   canvasHeight = h;
+  
   document.getElementById("Score").style.display="flex";
   document.getElementById("Score").innerHTML="Score:"+SCORE;
+
+
+  document.getElementById("playerhp").style.display="flex";
+  document.getElementById("playerhp").innerHTML= "Player HP: " +playerHp;
+
   friendly_ship = new FriendlySpaceShip(
     WidthDistanceFactor * Math.random() * canvasWidth,
     floorY,
@@ -350,7 +385,8 @@ function resetElements() {
 // reset all the screen elements and start a new game
 function newGame() {
   // set up the game
-
+  timeLeft = 2 * 60;
+  intervalTimer = window.setInterval( updatePositions, TIME_INTERVAL );
   resetElements();
   stopTimer();
   inGame = true;
@@ -362,6 +398,8 @@ function stopGame() {
 
   stopTimer();
   document.getElementById("Score").style.display="none";
+  document.getElementById("playerhp").style.display="none";
+  window.clearInterval( intervalTimer );
   inGame = false;
   if(canvas!=undefined){
     canvas.style.display="none";
@@ -373,7 +411,31 @@ function updatePositions() {
   moveEnemyShips();
   friendly_ship.moveFiers()
   enemy_fire();
-  draw(); // draw all elements at updated positions
+
+    ++timerCount; // increment the timer event counter
+
+   // if one second has passed
+   if (TIME_INTERVAL * timerCount >= 1000)
+   {
+      --timeLeft; // decrement the timer
+      ++timeElapsed; // increment the time elapsed
+      timerCount = 0; // reset the count
+   } // end if
+
+   draw(); // draw all elements at updated positions
+
+   // if the timer reached zero
+   if (timeLeft <= 0)
+   {
+      stopTimer();
+      stopGame();
+      timeLeft = 2 * 60;
+      showGameOverDialog("Times up"); // show the losing dialog
+   }
+
+
+
+
 } // end function updatePositions
 
 function enemy_fire() {
@@ -410,11 +472,25 @@ function fireCannonball(event) {} // end function fireCannonball
 // aligns the cannon in response to a mouse click
 function alignCannon(event) {} // end function alignCannon
 
+
+
 // draws the game elements to the given Canvas
 function draw() {
   context.clearRect(0, 0, canvasWidth, canvasHeight);
-  context.fillStyle = "white";
-  context.fillRect(0, 0, canvasWidth, canvasHeight);
+
+  canvas.width = canvas.width; // clears the canvas (from W3C docs)
+
+  // display time remaining
+  context.fillStyle = "black";
+  context.font = "bold 12px serif";
+  context.textBaseline = "top";
+  context.fillText("Time remaining: " + timeLeft,5, 5);
+
+
+
+
+  // context.fillStyle = "white";
+  // context.fillRect(0, 0, canvasWidth, canvasHeight);
   friendly_ship.draw();
   for (let i = 0; i < NumRows; i++) {
     for (let j = 0; j < NumCols; j++) {
@@ -425,10 +501,19 @@ function draw() {
     EnemyFireARR[i].move();
     EnemyFireARR[i].draw();
   }
+
+  document.getElementById("playerhp").style.display="flex";
+  document.getElementById("playerhp").innerHTML= "Player HP: " +playerHp;
+
+
 } // end function draw
 
 // display an alert when the game ends
-function showGameOverDialog(message) {} // end function showGameOverDialog
+function showGameOverDialog(message)
+{
+   alert(message + "\nShots fired: " + shotsFired + 
+      "\nTotal time: " + timeElapsed + " seconds ");
+} // end function showGameOverDialog // end function showGameOverDialog
 
 function goLogin() {
   muteDivs();
@@ -598,5 +683,4 @@ function moveEnemyShips() {
     }
   }
 }
-
 window.addEventListener("load", setupGame, false);

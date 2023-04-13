@@ -232,6 +232,8 @@
 // };
 // Fig. 14.27 cannon.js
 // Logic of the Cannon Game
+
+// var timeLeft = 180;
 var canvas; // the canvas
 var context; // used for drawing on the canvas
 

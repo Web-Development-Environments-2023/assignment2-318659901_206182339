@@ -130,6 +130,7 @@
               <tr>
                 <td><p id="Score" style="display: none"></p></td>
               </tr>
+              <td><h1 style="display: none; color: azure; font-size: 16px;" id="playerhp"</h1></td>
             </table>
           </td>
           <td class="screen" style="height: 80vh;">
@@ -153,7 +154,7 @@
     <div id="Configuration">
        <form id="configForm" onsubmit="LoadGame()">
         <label for="timelimit">Time Limit (Minutes):</label>
-        <input type="number" id="timelimit" min="2" value="2" style="width: 10ch;"><br/><br/>
+        <input type="number" id="timelimit" min="2" value=2 style="width: 10ch;"><br/><br/>
         
         <label for="shootchange">Shooting Button:</label><br/>
         <label for="shootchange" id="shootlabel">Space</label>
@@ -198,5 +199,23 @@
         $("#BirthDay").datepicker();
       });
     </script>
+    <script>
+    // Get the player HP element
+    const playerHpElement = document.getElementById('playerhp');
+    
+    // Set the player's starting HP
+    let playerHp = 100;
+    function decreasePlayerHP()
+    {
+      // Check if the player's HP has reached 0
+      if (playerHp <= 0) {
+      alert('Game over! Player defeated.');
+      }
+      playerHp -= 10;
+      playerHpElement.textContent = playerHp;
+      
+    }
+  </script>
+    
   </body>
 </html>
