@@ -317,27 +317,6 @@ function stopTimer() {
 
 
 
-// function updateTimer() {
-
-//   timeLeft--; // decrement time left
-//   document.getElementById("timeLeft").innerHTML = "Time remaining: " + timeLeft; // update timer text
-//   if (timeLeft <= 0) {
-//     clearInterval(timerId); // stop the timer
-//   }
-
-//   timerCount++;
-//   if (timerCount >= 60) {
-//     timeLeft--;
-//     timerCount = 0;
-//   }
-//   if (timeLeft <= 0) {
-//     clearInterval(timerInterval);
-//     alert("Game over!");
-//     stopTimer();
-//   }
-
-// }
-
 // called by function newGame to scale the size of the game elements
 // relative to the size of the canvas before the game begins
 function resetElements() {
