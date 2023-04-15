@@ -4,7 +4,12 @@ var canvas; // the canvas
 var context; // used for drawing on the canvas
 var canvasWidth;
 var canvasHeight;
+
+var enemyFireX;
+var enemyFireY;
 var playerHp;
+var playerX;
+var playerY;
 
 var floorY;
 var topY;
@@ -16,7 +21,6 @@ var user1 = {
   birthday: "p",
   firstname: "p",
   lastname: "p",
-  
 };
 var users = {
   p: user1,
@@ -124,7 +128,8 @@ function FriendlySpaceShip(x, y, width, height) {
   this.draw = function () {
     context.fillStyle = "green";
     context.beginPath();
-
+    playerX = this.x;
+    playerY = this.y;
     context.arc(
       this.x + width / 2,
       this.y + height / 2,
@@ -166,7 +171,6 @@ function EnemySpaceShip(x, y, width, height) {
   this.isAlive = true;
   SpaceShip.call(this, x, y, width, height);
   //   this.image.src = "images/enemy.png";
-
   this.draw = function () {
     if(this.isAlive==false){
       return;
@@ -251,6 +255,8 @@ function EnemyFire(x, y, width, height){
     // }
     context.fillStyle = "black";
     context.beginPath();
+    enemyFireX = this.x;
+    enemyFireY = this.y;
     context.arc(
       this.x + width / 2,
       this.y + height / 2,
@@ -359,6 +365,7 @@ function resetElements() {
       );
     }
   }
+  checkCollision();
 } // end function resetElements
 
 // reset all the screen elements and start a new game
@@ -390,7 +397,6 @@ function updatePositions() {
   moveEnemyShips();
   friendly_ship.moveFiers()
   enemy_fire();
-
     ++timerCount; // increment the timer event counter
 
    // if one second has passed
@@ -402,7 +408,7 @@ function updatePositions() {
    } // end if
 
    draw(); // draw all elements at updated positions
-
+   checkCollision();
    // if the timer reached zero
    if (timeLeft <= 0)
    {
@@ -662,4 +668,15 @@ function moveEnemyShips() {
     }
   }
 }
+
+
+function checkCollision() {
+  if ((enemyFireX - 0.00001  <= playerX <= enemyFireX + 0.00001) && (enemyFireY == playerY)) {
+    playerHp -= 5;
+    // console.log("Player HP reduced to " + playerHp);
+  }
+}
+
+
+
 window.addEventListener("load", setupGame, false);
