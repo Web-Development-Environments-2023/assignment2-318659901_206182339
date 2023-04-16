@@ -224,7 +224,7 @@ function FriendlyFire(x, y, width, height) {
     context.fill();
 
     for (let i = 0; i < NumRows; i++) {
-      for (let j = 0; j < NumCols; j++) {
+      for (let j = 0; j < NumCols; j++) { 
         if(enemy_ships[i][j].isAlive && Math.abs(enemy_ships[i][j].x-this.x)<10&&Math.abs(enemy_ships[i][j].y-this.y-10)<=10){
           enemy_ships[i][j].isAlive=false;
           friendly_ship.FIRE_ARR=friendly_ship.FIRE_ARR.filter((item)=>item!=this);
@@ -236,6 +236,7 @@ function FriendlyFire(x, y, width, height) {
         
       }
     }
+
   };
   this.move = function () {
       this.y=Math.max(this.y-FRIENDLY_FIRE_SPEED,-100);
@@ -250,9 +251,11 @@ function EnemyFire(x, y, width, height){
   this.height = height;
   this.final=false;
   this.draw = function () {
-    // if(Math.abs(friendly_ship.x-this.x)<10&&Math.abs(friendly_ship.y-this.y-10)<=10){
-    //   alert("boom!")
-    // }
+    if(Math.abs(friendly_ship.x-this.x)<=10&&Math.abs(friendly_ship.y - this.y + this.height)<=0){
+      playerHp -= 1;
+      // alert("boom!");
+      friendly_ship.FIRE_ARR=friendly_ship.FIRE_ARR.filter((item)=>item!=this);
+    }
     context.fillStyle = "black";
     context.beginPath();
     enemyFireX = this.x;
@@ -326,7 +329,7 @@ function stopTimer() {
 // called by function newGame to scale the size of the game elements
 // relative to the size of the canvas before the game begins
 function resetElements() {
-  playerHp = 100;
+  playerHp = 3;
   canvas.style.display="flex";
   FIRE_COUNT=30;
   SCORE=0;
@@ -365,7 +368,6 @@ function resetElements() {
       );
     }
   }
-  checkCollision();
 } // end function resetElements
 
 // reset all the screen elements and start a new game
@@ -408,7 +410,7 @@ function updatePositions() {
    } // end if
 
    draw(); // draw all elements at updated positions
-   checkCollision();
+  //  checkCollision();
    // if the timer reached zero
    if (timeLeft <= 0)
    {
@@ -493,11 +495,17 @@ function draw() {
 
 } // end function draw
 
-// display an alert when the game ends
+// display an alert when the game ends by end of time
 function showGameOverDialog(message)
 {
-   alert(message + "\nShots fired: " + shotsFired + 
-      "\nTotal time: " + timeElapsed + " seconds ");
+  if (SCORE< 100){
+    alert("You can do better");
+  }
+  else{
+    alert("Winner");
+  }
+  //  alert(message + "\nShots fired: " + shotsFired + 
+  //     "\nTotal time: " + timeElapsed + " seconds ");
 } // end function showGameOverDialog // end function showGameOverDialog
 
 function goLogin() {
@@ -669,13 +677,14 @@ function moveEnemyShips() {
   }
 }
 
-
-function checkCollision() {
-  if ((enemyFireX - 0.00001  <= playerX <= enemyFireX + 0.00001) && (enemyFireY == playerY)) {
-    playerHp -= 5;
-    // console.log("Player HP reduced to " + playerHp);
+function endGame(){
+  if (SCORE == 250){
+    alert("Champion");
   }
-}
+  if (playerHp == 0){
+    alert("You Lost");
+  }
+};
 
 
 
