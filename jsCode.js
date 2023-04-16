@@ -538,9 +538,10 @@ function addScore(game, score) {
     //scores.push({ game, score }); // Add game and score as an object to the scores array
     muteDivs()
     document.getElementById("Configuration").style.display = "none";
-    document.getElementById("scoreboard").style.display="flex";
+    //document.getElementById("scoreboard").style.display="flex";
     scores.push({ game, score }); // Add game and score as an object to the scores array
     updateScoreboard(game,score);
+    document.getElementById("scoreboard").style.display="flex";
    // showScore(); // Update the scoreboard after adding a new score
 }
 
