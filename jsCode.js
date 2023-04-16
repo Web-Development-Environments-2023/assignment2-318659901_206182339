@@ -236,6 +236,7 @@ function FriendlyFire(x, y, width, height) {
         
       }
     }
+    endGame();
 
   };
   this.move = function () {
@@ -252,9 +253,16 @@ function EnemyFire(x, y, width, height){
   this.final=false;
   this.draw = function () {
     if(Math.abs(friendly_ship.x-this.x)<=10&&Math.abs(friendly_ship.y - this.y + this.height)<=0){
-      playerHp -= 1;
-      // alert("boom!");
-      friendly_ship.FIRE_ARR=friendly_ship.FIRE_ARR.filter((item)=>item!=this);
+      
+      if (playerHp==1){
+        friendly_ship.FIRE_ARR=friendly_ship.FIRE_ARR.filter((item)=>item!=this);
+        endGame();
+
+      }
+      else{
+        playerHp -= 1;
+        friendly_ship.FIRE_ARR=friendly_ship.FIRE_ARR.filter((item)=>item!=this);
+      }
     }
     context.fillStyle = "black";
     context.beginPath();
@@ -499,14 +507,65 @@ function draw() {
 function showGameOverDialog(message)
 {
   if (SCORE< 100){
+
     alert("You can do better");
+    addScore("game ", SCORE);
   }
   else{
     alert("Winner");
+    addScore("game ", SCORE);
   }
   //  alert(message + "\nShots fired: " + shotsFired + 
   //     "\nTotal time: " + timeElapsed + " seconds ");
 } // end function showGameOverDialog // end function showGameOverDialog
+
+const scoreTable = document.getElementById("scoreTable");
+
+let scores = []; // Array to store the game scores
+
+function addScore(game, score) {
+   
+    stopTimer();
+    document.getElementById("Score").style.display="none";
+    document.getElementById("playerhp").style.display="none";
+    window.clearInterval( intervalTimer );
+    inGame = false;
+    if(canvas!=undefined){
+      canvas.style.display="none";
+      //canvas.style.display="none";
+    }
+
+    //scores.push({ game, score }); // Add game and score as an object to the scores array
+    muteDivs()
+    document.getElementById("Configuration").style.display = "none";
+    document.getElementById("scoreboard").style.display="flex";
+    scores.push({ game, score }); // Add game and score as an object to the scores array
+    updateScoreboard(game,score);
+   // showScore(); // Update the scoreboard after adding a new score
+}
+
+
+  function updateScoreboard() {
+    // Sort the scores array in descending order based on score values
+    scores.sort((a, b) => b.score - a.score);
+
+    // Clear the existing rows in the score table
+    while (scoreTable.rows.length > 1) {
+        scoreTable.deleteRow(1);
+    }
+
+    // Add the sorted scores to the score table
+    scores.forEach((score) => {
+        const newRow = scoreTable.insertRow();
+        const gameCell = newRow.insertCell();
+        const scoreCell = newRow.insertCell();
+        gameCell.textContent = score.game;
+        scoreCell.textContent = score.score;
+    });
+  }
+
+
+
 
 function goLogin() {
   muteDivs();
@@ -534,6 +593,10 @@ function goConfiguration() {
   
 
 }
+function showScore(){
+  muteDivs();
+  document.getElementById("scoreboard").style.display="block";
+}
 
 function LoadGame() {
   muteDivs();
@@ -548,6 +611,7 @@ function muteDivs() {
   document.getElementById("Login").style.display = "none";
   document.getElementById("SignUp").style.display = "none";
   document.getElementById("Welcome").style.display = "none";
+
 }
 
 function sumbitLogin() {
@@ -680,9 +744,15 @@ function moveEnemyShips() {
 function endGame(){
   if (SCORE == 250){
     alert("Champion");
+    addScore("game ", SCORE);
+
   }
-  if (playerHp == 0){
+  if (playerHp == 1){
+    playerHp-=1;
+    
     alert("You Lost");
+    //stopGame();
+    addScore("game ", SCORE);
   }
 };
 
