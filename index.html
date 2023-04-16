@@ -185,6 +185,13 @@
     </form>
     </div>
 
+    <!-- <div id="scoreSheets">
+      <table>
+        <td>
+          
+        </td>
+      </table>
+    </div> -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
     <link
@@ -199,23 +206,5 @@
         $("#BirthDay").datepicker();
       });
     </script>
-    <script>
-    // Get the player HP element
-    const playerHpElement = document.getElementById('playerhp');
-    
-    // Set the player's starting HP
-    let playerHp = 100;
-    function decreasePlayerHP()
-    {
-      // Check if the player's HP has reached 0
-      if (playerHp <= 0) {
-      alert('Game over! Player defeated.');
-      }
-      playerHp -= 10;
-      playerHpElement.textContent = playerHp;
-      
-    }
-  </script>
-    
   </body>
 </html>
