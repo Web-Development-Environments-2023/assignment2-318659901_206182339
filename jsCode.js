@@ -1,5 +1,3 @@
-// Fig. 14.27 cannon.js
-// Logic of the Cannon Game
 var canvas; // the canvas
 var context; // used for drawing on the canvas
 var canvasWidth;
@@ -47,15 +45,10 @@ var RIGHT_KEY = 39;
 var UP_KEY = 38;
 var DOWN_KEY = 40;
 var FIRE_KEY;
-
 var SCORE = 0;
 
 
 // constants for game play
-
-// const timeLimitValue = document.getElementById('timelimit');
-// const timeLimitValue = parseInt(timeLimitInput.value);
-
 var TIME_INTERVAL = 10; // screen refresh interval in milliseconds
 var ENEMY_SPEED = 0.05; // Enemy speed multiplier
 var FRIENDLY_SPEED = 3; // Friendly speed multiplier
@@ -69,46 +62,12 @@ var FIRE_COUNT=3;
 var intervalTimer; // holds interval timer
 var timerCount = 0; // number of times the timer fired since the last second
 var timeLeft; // the amount of time left in seconds
-let newTime;
+var newTime;
 var shotsFired; // the number of shots the user has fired
 var timeElapsed; // the number of seconds elapsed
 
-// variables for the blocker and target
-var blocker; // start and end points of the blocker
-var blockerDistance; // blocker distance from left
-var blockerBeginning; // blocker distance from top
-var blockerEnd; // blocker bottom edge distance from top
-var initialBlockerVelocity; // initial blocker speed multiplier
-var blockerVelocity; // blocker speed multiplier during game
-
-var target; // start and end points of the target
-var targetDistance; // target distance from left
-var targetBeginning; // target distance from top
-var targetEnd; // target bottom's distance from top
-var pieceLength; // length of a target piece
-var initialTargetVelocity; // initial target speed multiplier
-var targetVelocity; // target speed multiplier during game
-
-var lineWidth; // width of the target and blocker
-var hitStates; // is each target piece hit?
-var targetPiecesHit; // number of target pieces hit (out of 7)
-
-// variables for the cannon and cannonball
-var cannonball; // cannonball image's upper-left corner
-var cannonballVelocity; // cannonball's velocity
-var cannonballOnScreen; // is the cannonball on the screen
-var cannonballRadius; // cannonball radius
-var cannonballSpeed; // cannonball speed
-var cannonBaseRadius; // cannon base radius
-var cannonLength; // cannon barrel length
-var barrelEnd; // the end point of the cannon's barrel
 var canvasWidth; // width of the canvas
 var canvasHeight; // height of the canvas
-
-// variables for sounds
-var targetSound;
-var cannonSound;
-var blockerSound;
 
 
 function SpaceShip(x, y, width, height) {
@@ -118,8 +77,8 @@ function SpaceShip(x, y, width, height) {
   this.height = height;
   this.image = new Image();
   // this.image.src = "images/ship.png";
-  
 }
+
 function FriendlySpaceShip(x, y, width, height) {
   this.numlife = 3;
   this.FIRE_ARR = [];
@@ -197,8 +156,6 @@ function EnemySpaceShip(x, y, width, height) {
     }
   };
 }
-
-
 
 function FriendlyFire(x, y, width, height) {
   this.x = x;
@@ -300,10 +257,9 @@ function setupGame() {
   document.getElementById("Login_btn").addEventListener("click", goLogin);
   document.getElementById("SignUp_btn").addEventListener("click", goSignUp);
 
-  document.getElementById("SumbitLogin").addEventListener("click", sumbitLogin);
-  document
-    .getElementById("SumbitSignUp")
-    .addEventListener("click", sumbitSignUp);
+  document.getElementById("SubmitLogin").addEventListener("click", submitLogin);
+  document.getElementById("SubmitSignUp")
+    .addEventListener("click", submitSignUp);
 
   document.getElementById("startButton").addEventListener("click", newGame);
   document.getElementById("stopButton").addEventListener("click", stopGame);
@@ -430,7 +386,7 @@ function updatePositions() {
    {
       stopTimer();
       stopGame();
-      timeLeft = timelimit * 60;
+      timeLeft = newTime;
       showGameOverDialog("Times up"); // show the losing dialog
    }
 
@@ -466,15 +422,6 @@ function enemy_fire() {
 
 } // end function fireCannonball
 
-
-// fires a cannonball
-function fireCannonball(event) {} // end function fireCannonball
-
-// aligns the cannon in response to a mouse click
-function alignCannon(event) {} // end function alignCannon
-
-
-
 // draws the game elements to the given Canvas
 function draw() {
   context.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -487,11 +434,6 @@ function draw() {
   context.textBaseline = "top";
   context.fillText("Time remaining: " + timeLeft,5, 5);
 
-
-
-
-  // context.fillStyle = "white";
-  // context.fillRect(0, 0, canvasWidth, canvasHeight);
   friendly_ship.draw();
   for (let i = 0; i < NumRows; i++) {
     for (let j = 0; j < NumCols; j++) {
@@ -593,9 +535,6 @@ function addScore(game, score) {
     LoadGame();
   }
 
-
-
-
 function goLogin() {
   muteDivs();
   document.getElementById("Login").style.display = "flex";
@@ -617,7 +556,7 @@ function goAbout() {
   });
 }
 function goConfiguration() {
-  // muteDivs();
+  muteDivs();
   document.getElementById("Configuration").style.display = "flex";
   
 
@@ -629,7 +568,7 @@ function showScore(){
 
 
 function gameSettings(timelimit, shoot){  
-  var shootingKeyCode = document.getElementById("shootlabel").innerHTML;
+  // var shootingKeyCode = document.getElementById("shootlabel").innerHTML;
   FIRE_KEY = 32;
   timeLeft = timelimit * 60;
   newTime = timeLeft;
@@ -640,7 +579,7 @@ function gameSettings(timelimit, shoot){
 }
 
 function LoadGame() {
-  // muteDivs();
+  muteDivs();
   document.getElementById("Login").style.display = "none";
   document.getElementById("SignUp").style.display = "none";
   document.getElementById("Welcome").style.display = "none";
@@ -660,19 +599,20 @@ function muteDivs() {
 
 }
 
-function sumbitLogin() {
+function submitLogin() {
   let username = document.getElementById("Login_username").value;
   let password = document.getElementById("Login_password").value;
   if (users[username] == undefined) {
     alert("Username does not exist");
-  } else if (users[username].password != password) {
+  } 
+  else if (users[username].password != password) {
     alert("Incorrect Password");
-  } else {
-    muteDivs();
+  }
+  else {
     goConfiguration();
   }
 }
-function sumbitSignUp() {
+function submitSignUp() {
   let username = document.getElementById("SignUp_username").value;
   let password = document.getElementById("SignUp_password").value;
   let confirmPassword = document.getElementById("SignUp_confirmPassword").value;
@@ -798,7 +738,6 @@ function endGame(){
     else{
       addScore(user1.firstname, SCORE);
     }
-
   }
   else if (playerHp == 0)
   {
@@ -810,8 +749,6 @@ function endGame(){
       addScore(user1.firstname, SCORE);
     }
   }
+  // showScore();
 };
-
-
-
 window.addEventListener("load", setupGame, false);
