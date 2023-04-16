@@ -46,7 +46,7 @@ var LEFT_KEY = 37;
 var RIGHT_KEY = 39;
 var UP_KEY = 38;
 var DOWN_KEY = 40;
-var FIRE_KEY = 32;
+var FIRE_KEY;
 
 var SCORE = 0;
 
@@ -68,7 +68,8 @@ var FIRE_COUNT=3;
 // variables for the game loop and tracking statistics
 var intervalTimer; // holds interval timer
 var timerCount = 0; // number of times the timer fired since the last second
-var timeLeft = 2 * 60; // the amount of time left in seconds
+var timeLeft; // the amount of time left in seconds
+let newTime;
 var shotsFired; // the number of shots the user has fired
 var timeElapsed; // the number of seconds elapsed
 
@@ -236,7 +237,6 @@ function FriendlyFire(x, y, width, height) {
         
       }
     }
-    endGame();
 
   };
   this.move = function () {
@@ -254,7 +254,7 @@ function EnemyFire(x, y, width, height){
   this.draw = function () {
     if(Math.abs(friendly_ship.x-this.x)<=10&&Math.abs(friendly_ship.y - this.y + this.height)<=0){
       
-      if (playerHp==1){
+      if (playerHp==0){
         friendly_ship.FIRE_ARR=friendly_ship.FIRE_ARR.filter((item)=>item!=this);
         endGame();
 
@@ -308,6 +308,8 @@ function setupGame() {
   document.getElementById("startButton").addEventListener("click", newGame);
   document.getElementById("stopButton").addEventListener("click", stopGame);
 
+  document.getElementById("previousButton").addEventListener("click", restartGame);
+
   document.addEventListener("keydown", function (event) {
     keyDownHandler(event);
   });
@@ -337,6 +339,8 @@ function stopTimer() {
 // called by function newGame to scale the size of the game elements
 // relative to the size of the canvas before the game begins
 function resetElements() {
+  timeLeft = newTime;
+  window.clearInterval( intervalTimer );
   playerHp = 3;
   canvas.style.display="flex";
   FIRE_COUNT=30;
@@ -381,7 +385,7 @@ function resetElements() {
 // reset all the screen elements and start a new game
 function newGame() {
   // set up the game
-  timeLeft = 2 * 60;
+  timeLeft = newTime;
   intervalTimer = window.setInterval( updatePositions, TIME_INTERVAL );
   resetElements();
   stopTimer();
@@ -404,6 +408,9 @@ function stopGame() {
 
 // called every TIME_INTERVAL milliseconds
 function updatePositions() {
+  if (playerHp == 0 || SCORE == 250){
+    endGame();
+  }
   moveEnemyShips();
   friendly_ship.moveFiers()
   enemy_fire();
@@ -418,13 +425,12 @@ function updatePositions() {
    } // end if
 
    draw(); // draw all elements at updated positions
-  //  checkCollision();
    // if the timer reached zero
    if (timeLeft <= 0)
    {
       stopTimer();
       stopGame();
-      timeLeft = 2 * 60;
+      timeLeft = timelimit * 60;
       showGameOverDialog("Times up"); // show the losing dialog
    }
 
@@ -506,25 +512,76 @@ function draw() {
 // display an alert when the game ends by end of time
 function showGameOverDialog(message)
 {
+  let username = document.getElementById("Login_username").value;
   if (SCORE< 100){
 
     alert("You can do better");
-    addScore("game ", SCORE);
+    if (username != null){
+      addScore(users[username].firstname, SCORE);
+    }
+    else{
+      addScore(user1.firstname, SCORE);
+    }
   }
   else{
     alert("Winner");
-    addScore("game ", SCORE);
+    if (username != null){
+      addScore(users[username].firstname, SCORE);
+    }
+    else{
+      addScore(user1.firstname, SCORE);
+    }
   }
-  //  alert(message + "\nShots fired: " + shotsFired + 
-  //     "\nTotal time: " + timeElapsed + " seconds ");
 } // end function showGameOverDialog // end function showGameOverDialog
 
-const scoreTable = document.getElementById("scoreTable");
+// const scoreTable = document.getElementById("scoreTable");
 
 let scores = []; // Array to store the game scores
 
 function addScore(game, score) {
-   
+  stopTimer();
+  document.getElementById("Score").style.display="none";
+  document.getElementById("playerhp").style.display="none";
+  window.clearInterval( intervalTimer );
+  inGame = false;
+  if(canvas!=undefined){
+    canvas.style.display="none";
+  }
+
+
+  muteDivs()
+  document.getElementById("Configuration").style.display = "none";
+  scores.push({ game, score }); // Add game and score as an object to the scores array
+  updateScoreboard(game,score);
+  document.getElementById("scoreboard").style.display="flex";
+}
+
+
+
+    
+  function updateScoreboard() {
+    // Sort the scores array in descending order based on score values
+    scores.sort((a, b) => b.score - a.score);
+
+    // Get a reference to the HTML table element
+    const scoreTable = document.getElementById("scoreTable");
+
+    // Clear the existing rows in the score table
+    while (scoreTable.rows.length > 1) {
+      scoreTable.deleteRow(1);
+    }
+
+    // Add the sorted scores to the score table
+    scores.forEach((score) => {
+      const newRow = scoreTable.insertRow();
+      const gameCell = newRow.insertCell();
+      const scoreCell = newRow.insertCell();
+      gameCell.textContent = score.game;
+      scoreCell.textContent = score.score;
+    });
+  }
+
+  function restartGame(){
     stopTimer();
     document.getElementById("Score").style.display="none";
     document.getElementById("playerhp").style.display="none";
@@ -532,37 +589,8 @@ function addScore(game, score) {
     inGame = false;
     if(canvas!=undefined){
       canvas.style.display="none";
-      //canvas.style.display="none";
     }
-
-    //scores.push({ game, score }); // Add game and score as an object to the scores array
-    muteDivs()
-    document.getElementById("Configuration").style.display = "none";
-    //document.getElementById("scoreboard").style.display="flex";
-    scores.push({ game, score }); // Add game and score as an object to the scores array
-    updateScoreboard(game,score);
-    document.getElementById("scoreboard").style.display="flex";
-   // showScore(); // Update the scoreboard after adding a new score
-}
-
-
-  function updateScoreboard() {
-    // Sort the scores array in descending order based on score values
-    scores.sort((a, b) => b.score - a.score);
-
-    // Clear the existing rows in the score table
-    while (scoreTable.rows.length > 1) {
-        scoreTable.deleteRow(1);
-    }
-
-    // Add the sorted scores to the score table
-    scores.forEach((score) => {
-        const newRow = scoreTable.insertRow();
-        const gameCell = newRow.insertCell();
-        const scoreCell = newRow.insertCell();
-        gameCell.textContent = score.game;
-        scoreCell.textContent = score.score;
-    });
+    LoadGame();
   }
 
 
@@ -589,7 +617,7 @@ function goAbout() {
   });
 }
 function goConfiguration() {
-  muteDivs();
+  // muteDivs();
   document.getElementById("Configuration").style.display = "flex";
   
 
@@ -599,14 +627,31 @@ function showScore(){
   document.getElementById("scoreboard").style.display="block";
 }
 
+
+function gameSettings(timelimit, shoot){  
+  var shootingKeyCode = document.getElementById("shootlabel").innerHTML;
+  FIRE_KEY = 32;
+  timeLeft = timelimit * 60;
+  newTime = timeLeft;
+  intervalTimer = window.setInterval( updatePositions, TIME_INTERVAL );
+  resetElements();
+  stopTimer();
+  LoadGame();
+}
+
 function LoadGame() {
-  muteDivs();
+  // muteDivs();
+  document.getElementById("Login").style.display = "none";
+  document.getElementById("SignUp").style.display = "none";
+  document.getElementById("Welcome").style.display = "none";
+
   document.getElementById("Game").style.display = "flex";
   if (canvas!=undefined){
     canvas.style.display="none"
   }
   inGame = false;
 }
+
 function muteDivs() {
   document.getElementById("Game").style.display = "none";
   document.getElementById("Login").style.display = "none";
@@ -646,8 +691,9 @@ function sumbitSignUp() {
       firstname: firstname,
       lastname: lastname,
     };
-    muteDivs();
-    LoadGame();
+    // muteDivs();
+    // LoadGame();
+    goHome();
   }
 }
 
@@ -743,17 +789,26 @@ function moveEnemyShips() {
 }
 
 function endGame(){
+  let username = document.getElementById("Login_username").value;
   if (SCORE == 250){
     alert("Champion");
-    addScore("game ", SCORE);
+    if (username != null){
+      addScore(users[username].firstname, SCORE);
+    }
+    else{
+      addScore(user1.firstname, SCORE);
+    }
 
   }
-  if (playerHp == 1){
-    playerHp-=1;
-    
+  else if (playerHp == 0)
+  {
     alert("You Lost");
-    //stopGame();
-    addScore("game ", SCORE);
+    if (username != null){
+      addScore(users[username].firstname, SCORE);
+    }
+    else{
+      addScore(user1.firstname, SCORE);
+    }
   }
 };
 
