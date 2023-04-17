@@ -152,11 +152,11 @@ function EnemySpaceShip(x, y, width, height) {
   };
   var times2 = 4;
   this.move = function () {
-    if (times2>0 && speedTime - 5 == timeLeft){
-      times2--;
-      EnemyFireSpeed+= 0.2;
-      speedTime-=5;
-    }
+    // if (times2>0 && speedTime - 5 == timeLeft){
+    //   times2--;
+    //   EnemyFireSpeed+= 0.2;
+    //   speedTime-=5;
+    // }
     if (EnemyMove == "right") {
       this.x = Math.min(this.x + ENEMY_SPEED, canvasWidth * 0.9);
     } else if (EnemyMove == "left") {
@@ -244,11 +244,11 @@ function EnemyFire(x, y, width, height){
     context.fill();
   };
   this.move = function () {
-    if (times>0 && speedTime - 5 == timeLeft){
-      times--;
-      ENEMY_SPEED += 0.06;
-      speedTime-=5;
-    }
+    // if (times>0 && speedTime - 5 == timeLeft){
+    //   times--;
+    //   ENEMY_SPEED += 0.06;
+    //   speedTime-=5;
+    // }
       this.y=Math.min(this.y+EnemyFireSpeed,canvasHeight+100);
   };
 }
@@ -355,7 +355,7 @@ function resetElements() {
 function newGame() {
   // set up the game
   timeLeft = newTime;
-  speedTime = newTime;
+  //speedTime = newTime;
   intervalTimer = window.setInterval( updatePositions, TIME_INTERVAL );
   resetElements();
   stopTimer();
@@ -560,10 +560,31 @@ function goHome() {
 function goAbout() {
   document.querySelector("#About").showModal();
   document.getElementById("About").style.display = "flex";
-  document.getElementById("dialogOK").addEventListener("click", function () {
-    document.getElementById("About").style.display = "none";
-    document.getElementById("About").close();
+  // document.getElementById("dialogClose").addEventListener("click", function () {
+  //   document.getElementById("About").style.display = "none";
+  //   document.getElementById("About").close();
+  // });
+  window.addEventListener("keydown", function(event) {
+    if (event.keyCode === 27) {
+      document.getElementById("About").style.display = "none";
+    }
+});
+const dialog = document.getElementById('About');
+  const dialogCloseButton = document.getElementById('dialogClose');
+
+  // Add event listener to close the dialog when clicking outside of it
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) {
+      document.getElementById("About").style.display = "none";
+      dialog.close();
+    }
   });
+  // Add event listener to close the dialog when clicking on the "X" button
+  dialogCloseButton.addEventListener('click', () => {
+    document.getElementById("About").style.display = "none";
+    dialog.close();
+  });
+
 }
 function goConfiguration() {
   muteDivs();
