@@ -66,6 +66,7 @@ var shotsFired; // the number of shots the user has fired
 var timeElapsed; // the number of seconds elapsed
 var speedTime;
 var times = 4;
+var times2 = 4;
 
 
 var canvasWidth; // width of the canvas
@@ -150,13 +151,13 @@ function EnemySpaceShip(x, y, width, height) {
     );
     context.fill();
   };
-  var times2 = 4;
+  
   this.move = function () {
-    // if (times2>0 && speedTime - 5 == timeLeft){
-    //   times2--;
-    //   EnemyFireSpeed+= 0.2;
-    //   speedTime-=5;
-    // }
+    if (times2>0 && speedTime - 5 == timeLeft){
+      times2--;
+      EnemyFireSpeed+= 0.1;
+      // speedTime-=5;
+    }
     if (EnemyMove == "right") {
       this.x = Math.min(this.x + ENEMY_SPEED, canvasWidth * 0.9);
     } else if (EnemyMove == "left") {
@@ -244,11 +245,11 @@ function EnemyFire(x, y, width, height){
     context.fill();
   };
   this.move = function () {
-    // if (times>0 && speedTime - 5 == timeLeft){
-    //   times--;
-    //   ENEMY_SPEED += 0.06;
-    //   speedTime-=5;
-    // }
+    if (times>0 && speedTime - 5 == timeLeft){
+      times--;
+      ENEMY_SPEED += 0.05;
+      speedTime-=5;
+    }
       this.y=Math.min(this.y+EnemyFireSpeed,canvasHeight+100);
   };
 }
@@ -308,6 +309,11 @@ function stopTimer() {
 // called by function newGame to scale the size of the game elements
 // relative to the size of the canvas before the game begins
 function resetElements() {
+  times = 4;
+  times2 = 4;
+  EnemyFireSpeed = 0.5;
+  ENEMY_SPEED = 0.05;
+  speedTime = newTime;
   timeLeft = newTime;
   window.clearInterval( intervalTimer );
   playerHp = 3;
