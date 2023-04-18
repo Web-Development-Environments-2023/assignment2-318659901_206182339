@@ -27,8 +27,9 @@ body {
 
 #menu {
 position: fixed;
+top: 0;
 width: 100%;
-height:90px;
+height:50px;
 background: #333; /* Change background color to #333 */
 display: block;
 list-style-type: none;
@@ -38,6 +39,12 @@ overflow: hidden;
 align-items: center;
 align-self: start;
 font-family: Arial, Helvetica, sans-serif;
+}
+.game-title{
+  width: 100%;
+  height: 50px;
+  align-items: center;
+  font-size: 20px;
 }
 .logo {
 float: left;
@@ -79,24 +86,26 @@ height: 7vh;
 width: 7vw;
 /* background-color: #333; */
 }
-
+/* 
 .Game {
 display: flex;
 height: 100vh;
 }
 
 .settings {
-width: 15%;
+width: 7%;
 border: 1px solid rgb(245, 237, 237);
 }
 
 .screen {
+  width: 100%;
+  height: 650px;
 border: 1px solid rgb(250, 249, 249);
 }
 
 table {
 width: 100%;
-height: 100%;
+height: 650px;
 border-collapse: collapse;
 }
 
@@ -104,7 +113,71 @@ canvas {
 border: 1px solid rgb(252, 248, 248);
 width: 100%;
 height: 100%;
-}
+} */
+
+  .Game {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* set the minimum height of the game container to 100vh */
+   /* background-color: #000; set the background color of the game container */
+  }
+
+  .settings {
+    padding: 20px;
+    text-align: center;
+    color: #fff; /* set the text color for the settings area */
+  }
+  .settings tr {
+    align-self: flex-start; /* align table rows to the top of the flex container */
+  }
+  #startButton,
+  #stopButton {
+    font-family: Lora;
+    letter-spacing: 10px;
+    color: #a5e4ff;
+    font-size: 15px;
+    font-weight: 600;
+    border: 2px solid #a5e4ff;
+    background-color: transparent;
+    padding: 10px 20px;
+    cursor: pointer;
+  
+    animation: buttonAnimate 5s infinite alternate;
+  }
+  #Score,
+  #playerhp
+  {
+    margin-top: 20px;
+    font-size: 16px;
+  }
+
+  .screen {
+    flex: 1; /* set the game screen to take up remaining space */
+    max-height: 90vh; /* set the maximum height of the game screen to 90vh */
+    /* background-color: #000; set the background color of the game screen */
+    margin-top: 50px;
+    overflow: hidden; /* hide any overflow from canvas element */
+    position: relative;
+  }
+
+  /* #theCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  } */
+  canvas {
+    border: 1px solid rgb(252, 248, 248);
+    width: 100%;
+    height: 100%;
+    display: block;
+    transform-origin: top left; /* set the transform origin to top left corner of the canvas */
+    transform: scale(0.85); 
+  }
 
 .footer {
 position: fixed;

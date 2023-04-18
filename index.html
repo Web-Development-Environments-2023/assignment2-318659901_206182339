@@ -12,23 +12,23 @@
        
     </style>
     <link rel="stylesheet" href="style.css" />
-    <script src="jsCode.js"></script>
+   
   </head>
   <body>
     <div id="menu" class="start">
-      <img src="/items/looney toons logo.png" height="70" alt="Logo" class="logo">
+      <img src="/items/looney toons logo.png" height="40" alt="Logo" class="logo">
       <!-- <h1 class="game-title">Space Invaders</h1> -->
     
       <li><a id="Home_menu" href="#">Home</a></li>
       <li><a id="About_menu" href="#">About</a></li>
-      <li>
+      <!-- <li>
         <a id="Configuration_menu" href="#">Configuration</a>
-      </li>
+      </li> -->
       <li><a id="Login_menu" href="#">Login</a></li>
       <li><a id="SignUp_menu" href="#">Sign up</a></li>
       <h1 class="game-title">Space Invaders</h1>
     </div>
-    <div id="Welcome" class="start">
+    <div id="Welcome" class="start" >
       <h1>Welcome to Space Invaders Game</h1>
       <p>You need to Login so you can start playing.</p>
       <button><a id="Login_btn">Login</a></button>
@@ -100,7 +100,7 @@
         <div class="form">
           <label for="BirthDay">Birth Day:</label>
           <input
-            type="BirthDay"
+            type="date"
             name="BirthDay"
             id="SignUp_birthday"
             required
@@ -112,7 +112,7 @@
       </form>
     </div>
     <div class="Game" id="Game" style="display: none">
-      <h1 style="padding: 15px">Shooting Tunes</h1>
+      <h1 style="padding: 20px">Shooting Tunes</h1>
       <table>
         <tr>
           <td class="settings">
@@ -127,10 +127,10 @@
               <tr>
                 <td><p id="Score" style="display: none"></p></td>
               </tr>
-              <td><h1 style="display: none; color: azure; font-size: 16px;" id="playerhp"</h1></td>
+              <td><p style="display: none; color: azure; font-size: 16px;" id="playerhp"></p></td>
             </table>
           </td>
-          <td class="screen" style="height: 80vh;">
+          <td class="screen" style="height: 90vh;">
             <canvas id="theCanvas" style="width: 100%; height: 100%;"></canvas>
           </td>
         </tr>
@@ -157,7 +157,7 @@
 
       </form>
     </dialog>
-    <div id="Configuration">
+    <div id="Configuration" style="display: none">
        <!-- <form id="configForm" onsubmit="LoadGame()"> -->
         <form id="configForm" onsubmit="gameSettings(timelimit.value, shootlabel.innerHTML)">
         <label for="timelimit">Time Limit (Minutes):</label>
@@ -187,7 +187,7 @@
         </script>
                         
         <input type="reset" value="Default Setting" onclick="shootlabel.innerHTML='Space'"><br/>
-        <input type="submit" value="Play!">
+        <input type="submit" id="submitplay" value="Play!">
        
     </form>
     </div>
@@ -218,5 +218,6 @@
         $("#BirthDay").datepicker();
       });
     </script>
+     <script src="jsCode.js"></script>
   </body>
 </html>

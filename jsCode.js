@@ -260,9 +260,9 @@ function setupGame() {
   //menu buttons
   document.getElementById("Home_menu").addEventListener("click", goHome);
   document.getElementById("About_menu").addEventListener("click", goAbout);
-  document
-    .getElementById("Configuration_menu")
-    .addEventListener("click", goConfiguration);
+  // document
+  //   .getElementById("Configuration_menu")
+  //   .addEventListener("click", goConfiguration);
 
   document.getElementById("Login_menu").addEventListener("click", goLogin);
   document.getElementById("SignUp_menu").addEventListener("click", goSignUp);
@@ -274,6 +274,7 @@ function setupGame() {
   document.getElementById("SubmitLogin").addEventListener("click", submitLogin);
   document.getElementById("SubmitSignUp")
     .addEventListener("click", submitSignUp);
+  document.getElementById("submitplay").addEventListener("click", gameSettings);
 
   document.getElementById("startButton").addEventListener("click", newGame);
   document.getElementById("stopButton").addEventListener("click", stopGame);
@@ -609,19 +610,23 @@ function gameSettings(timelimit, shoot){
   FIRE_KEY = 32;
   timeLeft = timelimit * 60;
   newTime = timeLeft;
+  event.preventDefault();
   intervalTimer = window.setInterval( updatePositions, TIME_INTERVAL );
   resetElements();
   stopTimer();
+  muteDivs();
   LoadGame();
+  return true;
 }
 
 function LoadGame() {
   muteDivs();
-  document.getElementById("Login").style.display = "none";
-  document.getElementById("SignUp").style.display = "none";
-  document.getElementById("Welcome").style.display = "none";
+  // document.getElementById("Login").style.display = "none";
+  // document.getElementById("SignUp").style.display = "none";
+  // document.getElementById("Welcome").style.display = "none";
+  // document.getElementById("Configuration").style.display = "none";
 
-  document.getElementById("Game").style.display = "flex";
+  document.getElementById("Game").style.display = "block";
   if (canvas!=undefined){
     canvas.style.display="none"
   }
@@ -633,6 +638,8 @@ function muteDivs() {
   document.getElementById("Login").style.display = "none";
   document.getElementById("SignUp").style.display = "none";
   document.getElementById("Welcome").style.display = "none";
+  document.getElementById("Configuration").style.display = "none";
+  document.getElementById("scoreboard").style.display = "none";
 
 }
 
@@ -668,7 +675,7 @@ function submitSignUp() {
       firstname: firstname,
       lastname: lastname,
     };
-    // muteDivs();
+     muteDivs();
     // LoadGame();
     goHome();
   }
