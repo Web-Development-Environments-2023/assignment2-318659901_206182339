@@ -67,10 +67,20 @@ var timeElapsed; // the number of seconds elapsed
 var speedTime;
 var times = 4;
 var times2 = 4;
+var flag = true;
 
 
 var canvasWidth; // width of the canvas
 var canvasHeight; // height of the canvas
+
+
+let timelimit = 2; // Set initial value of timelimit to 2
+
+document.getElementById("timelimit").addEventListener("input", function() {
+  timelimit = parseInt(this.value); // Update timelimit whenever the input value changes
+});
+// const timelimitInput = document.getElementById("timelimit");
+// const timelimit = parseInt(timelimitInput.value);
 
 
 function SpaceShip(x, y, width, height) {
@@ -329,6 +339,7 @@ function resetElements() {
   topY = h * 0.6;
   canvasWidth = w;
   canvasHeight = h;
+  flag = true;
   
   document.getElementById("Score").style.display="flex";
   document.getElementById("Score").innerHTML="Score:"+SCORE;
@@ -336,6 +347,10 @@ function resetElements() {
 
   document.getElementById("playerhp").style.display="flex";
   document.getElementById("playerhp").innerHTML= "Player HP: " +playerHp;
+
+  document.getElementById("timer").style.display="flex";
+  document.getElementById("timer").innerHTML= "Time left: " +timeLeft;
+
 
   friendly_ship = new FriendlySpaceShip(
     WidthDistanceFactor * Math.random() * canvasWidth,
@@ -376,6 +391,7 @@ function stopGame() {
   stopTimer();
   document.getElementById("Score").style.display="none";
   document.getElementById("playerhp").style.display="none";
+  document.getElementById("timer").style.display="none";
   window.clearInterval( intervalTimer );
   inGame = false;
   if(canvas!=undefined){
@@ -385,7 +401,8 @@ function stopGame() {
 
 // called every TIME_INTERVAL milliseconds
 function updatePositions() {
-  if (playerHp == 0 || SCORE == 250){
+  if ((playerHp == 0 || SCORE == 250)&& flag==true){
+    flag = false;
     endGame();
   }
   moveEnemyShips();
@@ -445,12 +462,6 @@ function draw() {
 
   canvas.width = canvas.width; // clears the canvas (from W3C docs)
 
-  // display time remaining
-  context.fillStyle = "black";
-  context.font = "bold 12px serif";
-  context.textBaseline = "top";
-  context.fillText("Time remaining: " + timeLeft,5, 5);
-
   friendly_ship.draw();
   for (let i = 0; i < NumRows; i++) {
     for (let j = 0; j < NumCols; j++) {
@@ -464,6 +475,9 @@ function draw() {
 
   document.getElementById("playerhp").style.display="flex";
   document.getElementById("playerhp").innerHTML= "Player HP: " +playerHp;
+
+  document.getElementById("timer").style.display="flex";
+  document.getElementById("timer").innerHTML= "Time left: " +timeLeft;
 
 
 } // end function draw
@@ -501,15 +515,14 @@ function addScore(game, score) {
   stopTimer();
   document.getElementById("Score").style.display="none";
   document.getElementById("playerhp").style.display="none";
+  document.getElementById("timer").style.display="none";
+  // document.getElementById("Configuration").style.display = "none";
   window.clearInterval( intervalTimer );
   inGame = false;
   if(canvas!=undefined){
     canvas.style.display="none";
   }
-
-
-  muteDivs()
-  document.getElementById("Configuration").style.display = "none";
+  muteDivs();
   scores.push({ game, score }); // Add game and score as an object to the scores array
   updateScoreboard(game,score);
   document.getElementById("scoreboard").style.display="flex";
@@ -544,6 +557,7 @@ function addScore(game, score) {
     stopTimer();
     document.getElementById("Score").style.display="none";
     document.getElementById("playerhp").style.display="none";
+    document.getElementById("timer").style.display="none";
     window.clearInterval( intervalTimer );
     inGame = false;
     if(canvas!=undefined){
@@ -596,8 +610,6 @@ const dialog = document.getElementById('About');
 function goConfiguration() {
   muteDivs();
   document.getElementById("Configuration").style.display = "flex";
-  
-
 }
 function showScore(){
   muteDivs();
@@ -605,18 +617,20 @@ function showScore(){
 }
 
 
-function gameSettings(timelimit, shoot){  
+function gameSettings(timelimitt, shoot){  
   // var shootingKeyCode = document.getElementById("shootlabel").innerHTML;
+  event.preventDefault();
   FIRE_KEY = 32;
   timeLeft = timelimit * 60;
-  newTime = timeLeft;
-  event.preventDefault();
+  newTime = timelimit * 60;
+  // event.stopPropagation();
   intervalTimer = window.setInterval( updatePositions, TIME_INTERVAL );
   resetElements();
   stopTimer();
   muteDivs();
   LoadGame();
-  return true;
+  timeLeft = timelimit * 60;
+  return false;
 }
 
 function LoadGame() {
@@ -640,7 +654,6 @@ function muteDivs() {
   document.getElementById("Welcome").style.display = "none";
   document.getElementById("Configuration").style.display = "none";
   document.getElementById("scoreboard").style.display = "none";
-
 }
 
 function submitLogin() {
@@ -653,6 +666,7 @@ function submitLogin() {
     alert("Incorrect Password");
   }
   else {
+    event.preventDefault();
     goConfiguration();
   }
 }
@@ -793,6 +807,6 @@ function endGame(){
       addScore(user1.firstname, SCORE);
     }
   }
-  // showScore();
+  return;
 };
 window.addEventListener("load", setupGame, false);
