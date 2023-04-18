@@ -48,9 +48,9 @@ var FIRE_KEY;
 var SCORE = 0;
 
 // constants for game play
-var TIME_INTERVAL = 10; // screen refresh interval in milliseconds
+var TIME_INTERVAL = 5; // screen refresh interval in milliseconds
 var ENEMY_SPEED = 0.05; // Enemy speed multiplier
-var FRIENDLY_SPEED = 6; // Friendly speed multiplier
+var FRIENDLY_SPEED = 35; // Friendly speed multiplier
 var FRIENDLY_FIRE_SPEED = 0.5;
 var EnemyFireSpeed = 0.5;
 var EnemyFireCount = 1;
@@ -89,7 +89,7 @@ function SpaceShip(x, y, width, height) {
   this.width = width;
   this.height = height;
   this.image = new Image();
-  // this.image.src = "images/ship.png";
+  this.image.src = "items/ship.png";
 }
 
 function FriendlySpaceShip(x, y, width, height) {
@@ -97,25 +97,34 @@ function FriendlySpaceShip(x, y, width, height) {
   this.FIRE_ARR = [];
   this.FireNum = 0;
   SpaceShip.call(this, x, y, width, height);
-  //   this.image.src = "images/ship.png";
-  this.draw = function () {
-    context.fillStyle = "green";
-    context.beginPath();
-    playerX = this.x;
-    playerY = this.y;
-    context.arc(
-      this.x + width / 2,
-      this.y + height / 2,
-      this.width / 10,
-      0,
-      2 * Math.PI,
-      false
-    );
-    context.fill();
+
+
+  this.draw = function(){
+    player = new Image();
+    player.src = "/items/newPlayer.png";
+    context.drawImage(player, this.x, this.y, 80,130);
     for(var i=0;i<this.FireNum;i++){
-      this.FIRE_ARR[i].draw();
-    }
+          this.FIRE_ARR[i].draw();
+        }
   };
+  // this.draw = function () {
+  //   context.fillStyle = "green";
+  //   context.beginPath();
+  //   playerX = this.x;
+  //   playerY = this.y;
+  //   context.arc(
+  //     this.x + width / 2,
+  //     this.y + height / 2,
+  //     this.width / 10,
+  //     0,
+  //     2 * Math.PI,
+  //     false
+  //   );
+  //   context.fill();
+  //   for(var i=0;i<this.FireNum;i++){
+  //     this.FIRE_ARR[i].draw();
+  //   }
+  // };
   this.moveDown = function () {
     this.y = Math.min(this.y + FRIENDLY_SPEED, floorY);
   };
@@ -143,24 +152,31 @@ function FriendlySpaceShip(x, y, width, height) {
 function EnemySpaceShip(x, y, width, height) {
   this.isAlive = true;
   SpaceShip.call(this, x, y, width, height);
-  //   this.image.src = "images/enemy.png";
   this.draw = function () {
     if(this.isAlive==false){
       return;
     }
-    context.fillStyle = "red";
-    context.beginPath();
-
-    context.arc(
-      this.x + width / 2,
-      this.y + height / 2,
-      this.width / 10,
-      0,
-      2 * Math.PI,
-      false
-    );
-    context.fill();
+    enemy = new Image();
+    enemy.src = "/items/enemy.png";
+    context.drawImage(enemy, this.x, this.y, 80,100);
   };
+  // this.draw = function () {
+  //   if(this.isAlive==false){
+  //     return;
+  //   }
+  //   context.fillStyle = "red";
+  //   context.beginPath();
+
+  //   context.arc(
+  //     this.x + width / 2,
+  //     this.y + height / 2,
+  //     this.width / 10,
+  //     0,
+  //     2 * Math.PI,
+  //     false
+  //   );
+  //   context.fill();
+  // };
   
   this.move = function () {
     if (times2>0 && speedTime - 5 == timeLeft){
@@ -188,17 +204,20 @@ function FriendlyFire(x, y, width, height) {
           FIRE_COUNT++;
     }
     if(this.isAlive==false)return;
-    context.fillStyle = "yellow";
-    context.beginPath();
-    context.arc(
-      this.x + width / 2,
-      this.y + height / 2,
-      this.width / 10,
-      0,
-      2 * Math.PI,
-      false
-    );
-    context.fill();
+    playerFire = new image();
+    playerFire.src = "/items/playerFire.png";
+    context.drawImage(playerFire,this.x, this.y, width, height);
+    // context.fillStyle = "yellow";
+    // context.beginPath();
+    // context.arc(
+    //   this.x + width / 2,
+    //   this.y + height / 2,
+    //   this.width / 10,
+    //   0,
+    //   2 * Math.PI,
+    //   false
+    // );
+    // context.fill();
 
     for (let i = 0; i < NumRows; i++) {
       for (let j = 0; j < NumCols; j++) { 
@@ -302,6 +321,8 @@ function setupGame() {
   // get the canvas and context
   canvas = document.getElementById("theCanvas");
   context = canvas.getContext("2d");
+  canvas.width = "1366";
+  canvas.height = "768";
 } // end function setupGame
 
 // set up interval timer to update game
@@ -375,6 +396,9 @@ function resetElements() {
 
 // reset all the screen elements and start a new game
 function newGame() {
+  // background = new image();
+  // background.src = "items/background.png"
+  
   // set up the game
   timeLeft = newTime;
   //speedTime = newTime;
@@ -404,6 +428,11 @@ function updatePositions() {
   if ((playerHp == 0 || SCORE == 250)&& flag==true){
     flag = false;
     endGame();
+  }
+  if (inGame == false){
+    document.getElementById("Score").style.display="none";
+    document.getElementById("playerhp").style.display="none";
+    document.getElementById("timer").style.display="none";
   }
   moveEnemyShips();
   friendly_ship.moveFiers()
@@ -473,11 +502,11 @@ function draw() {
     EnemyFireARR[i].draw();
   }
 
-  document.getElementById("playerhp").style.display="flex";
-  document.getElementById("playerhp").innerHTML= "Player HP: " +playerHp;
+  // document.getElementById("playerhp").style.display="flex";
+  // document.getElementById("playerhp").innerHTML= "Player HP: " +playerHp;
 
-  document.getElementById("timer").style.display="flex";
-  document.getElementById("timer").innerHTML= "Time left: " +timeLeft;
+  // document.getElementById("timer").style.display="flex";
+  // document.getElementById("timer").innerHTML= "Time left: " +timeLeft;
 
 
 } // end function draw
