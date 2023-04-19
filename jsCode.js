@@ -49,10 +49,10 @@ var SCORE = 0;
 
 // constants for game play
 var TIME_INTERVAL = 5; // screen refresh interval in milliseconds
-var ENEMY_SPEED = 0.05; // Enemy speed multiplier
+var ENEMY_SPEED = 1.5; // Enemy speed multiplier
 var FRIENDLY_SPEED = 35; // Friendly speed multiplier
-var FRIENDLY_FIRE_SPEED = 0.5;
-var EnemyFireSpeed = 0.5;
+var FRIENDLY_FIRE_SPEED = 3;
+var EnemyFireSpeed = 2;
 var EnemyFireCount = 1;
 var EnemyFireARR;
 
@@ -82,6 +82,15 @@ document.getElementById("timelimit").addEventListener("input", function() {
 // const timelimitInput = document.getElementById("timelimit");
 // const timelimit = parseInt(timelimitInput.value);
 
+// var keyPressedState;
+//   keyPressedState = function(left,right,up,down,space){
+//   this.left = false;
+//   this.right = false;
+//   this.up = false;
+//   this.down = false;
+//   this.space = false;
+// };
+
 
 function SpaceShip(x, y, width, height) {
   this.x = x;
@@ -97,7 +106,8 @@ function FriendlySpaceShip(x, y, width, height) {
   this.FIRE_ARR = [];
   this.FireNum = 0;
   SpaceShip.call(this, x, y, width, height);
-
+  this.width = 80;
+  this.height = 130;
 
   this.draw = function(){
     player = new Image();
@@ -152,6 +162,8 @@ function FriendlySpaceShip(x, y, width, height) {
 function EnemySpaceShip(x, y, width, height) {
   this.isAlive = true;
   SpaceShip.call(this, x, y, width, height);
+  this.width = 80;
+  this.height = 100;
   this.draw = function () {
     if(this.isAlive==false){
       return;
@@ -181,7 +193,7 @@ function EnemySpaceShip(x, y, width, height) {
   this.move = function () {
     if (times2>0 && speedTime - 5 == timeLeft){
       times2--;
-      EnemyFireSpeed+= 0.1;
+      EnemyFireSpeed+= 0.3;
       // speedTime-=5;
     }
     if (EnemyMove == "right") {
@@ -247,7 +259,7 @@ function EnemyFire(x, y, width, height){
   this.height = height;
   this.final=false;
   this.draw = function () {
-    if(Math.abs(friendly_ship.x-this.x)<=10&&Math.abs(friendly_ship.y - this.y + this.height)<=0){
+    if(Math.abs(friendly_ship.x -this.x)<=40&&Math.abs(friendly_ship.y - this.y + this.height)<=120){
       
       if (playerHp==0){
         friendly_ship.FIRE_ARR=friendly_ship.FIRE_ARR.filter((item)=>item!=this);
@@ -257,6 +269,8 @@ function EnemyFire(x, y, width, height){
       else{
         playerHp -= 1;
         friendly_ship.FIRE_ARR=friendly_ship.FIRE_ARR.filter((item)=>item!=this);
+        friendly_ship.x = 0;
+        friendly_ship.y = canvasHeight-153;
       }
     }
     context.fillStyle = "black";
@@ -276,7 +290,7 @@ function EnemyFire(x, y, width, height){
   this.move = function () {
     if (times>0 && speedTime - 5 == timeLeft){
       times--;
-      ENEMY_SPEED += 0.05;
+      ENEMY_SPEED += 0.2;
       speedTime-=5;
     }
       this.y=Math.min(this.y+EnemyFireSpeed,canvasHeight+100);
@@ -309,7 +323,10 @@ function setupGame() {
   document.getElementById("stopButton").addEventListener("click", stopGame);
 
   document.getElementById("previousButton").addEventListener("click", restartGame);
-
+  
+  // document.addEventListener("keyup", function(event){
+  //   keyUpHandler(event);
+  // });
   document.addEventListener("keydown", function (event) {
     keyDownHandler(event);
   });
@@ -343,8 +360,8 @@ function stopTimer() {
 function resetElements() {
   times = 4;
   times2 = 4;
-  EnemyFireSpeed = 0.5;
-  ENEMY_SPEED = 0.05;
+  EnemyFireSpeed = 2;
+  ENEMY_SPEED = 1.5;
   speedTime = newTime;
   timeLeft = newTime;
   window.clearInterval( intervalTimer );
@@ -434,17 +451,18 @@ function updatePositions() {
     document.getElementById("playerhp").style.display="none";
     document.getElementById("timer").style.display="none";
   }
-  document.getElementById("Score").style.display="flex";
-  document.getElementById("Score").innerHTML="Score:"+SCORE;
-
-
-  document.getElementById("playerhp").style.display="flex";
-  document.getElementById("playerhp").innerHTML= "Player HP: " +playerHp;
-
-  document.getElementById("timer").style.display="flex";
-  document.getElementById("timer").innerHTML= "Time left: " +timeLeft;
-
-
+  else{
+    document.getElementById("Score").style.display="flex";
+    document.getElementById("Score").innerHTML="Score:"+SCORE;
+  
+  
+    document.getElementById("playerhp").style.display="flex";
+    document.getElementById("playerhp").innerHTML= "Player HP: " +playerHp;
+  
+    document.getElementById("timer").style.display="flex";
+    document.getElementById("timer").innerHTML= "Time left: " +timeLeft;  
+  }
+  // movePlayer();
   moveEnemyShips();
   friendly_ship.moveFiers()
   enemy_fire();
@@ -786,7 +804,6 @@ function checkSetUp(
 }
 
 function keyDownHandler(event) {
-  if (inGame) {
     switch (event.keyCode) {
       case LEFT_KEY: // left arrow
         friendly_ship.moveLeft();
@@ -807,16 +824,16 @@ function keyDownHandler(event) {
         }
         break;
     }
-  }
-}
+  };
+
 function moveEnemyShips() {
   if (
     EnemyMove == "right" &&
     enemy_ships[0][NumCols - 1].x + enemy_ships[0][NumCols - 1].width >=
-      canvasWidth
+      canvasWidth - 100
   ) {
     EnemyMove = "left";
-  } else if (EnemyMove == "left" && enemy_ships[0][0].x <= 0) {
+  } else if (EnemyMove == "left" && enemy_ships[0][0].x <= 100) {
     EnemyMove = "right";
   }
   for (let i = 0; i < NumRows; i++) {
@@ -849,4 +866,62 @@ function endGame(){
   }
   return;
 };
+
+// if(inGame== true){
+//   addEventListener("keydown", (event) => {
+//     event.preventDefault()
+//     if (event.key == "ArrowLeft")
+//         keyPressedState.left = true
+  
+//     if (event.key == "ArrowRight")
+//         keyPressedState.right = true
+  
+//     if (event.key == "ArrowUp")
+//         keyPressedState.up = true
+  
+//     if (event.key == "ArrowDown")
+//         keyPressedState.down = true
+  
+//     if (event.key == " "){
+//         keyPressedState.space = true
+//     }
+//   });
+  
+//   addEventListener("keyup", (event) => {
+//     event.preventDefault()
+//     if (event.key == "ArrowLeft")
+//         keyPressedState.left = false
+  
+//     if (event.key == "ArrowRight")
+//         keyPressedState.right = false
+  
+//     if (event.key == "ArrowUp")
+//         keyPressedState.up = false
+  
+//     if (event.key == "ArrowDown")
+//         keyPressedState.down = false
+  
+//     if (event.key == " "){
+//         keyPressedState.space = false
+//     }
+//   });  
+// };
+// function movePlayer(){
+//   if (inGame) {
+//     if(keyPressedState.left == true){
+//       friendly_ship.moveLeft();
+//     }
+//     if(keyPressedState.right == true){
+//       friendly_ship.moveRight();
+//     }
+//     if(keyPressedState.up == true){
+//       friendly_ship.moveUp();
+//     }
+//     if(keyPressedState.left == true){
+//       friendly_ship.moveDown();
+//     }
+//   }
+// };
+
+
 window.addEventListener("load", setupGame, false);
