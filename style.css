@@ -197,7 +197,7 @@ button:hover,
     height: 100%;
     display: block;
     transform-origin: center; /* set the transform origin to top left corner of the canvas */
-    transform: scale(0.85); 
+    /* transform: scale(0.85);  */
     background-image: url('/items/inGameBackground.jpeg');
     background-size: cover;
     height: 100vh;
