@@ -204,20 +204,20 @@ function FriendlyFire(x, y, width, height) {
           FIRE_COUNT++;
     }
     if(this.isAlive==false)return;
-    playerFire = new image();
-    playerFire.src = "/items/playerFire.png";
-    context.drawImage(playerFire,this.x, this.y, width, height);
-    // context.fillStyle = "yellow";
-    // context.beginPath();
-    // context.arc(
-    //   this.x + width / 2,
-    //   this.y + height / 2,
-    //   this.width / 10,
-    //   0,
-    //   2 * Math.PI,
-    //   false
-    // );
-    // context.fill();
+    // playerFire = new image();
+    // playerFire.src = "/items/playerFire.png";
+    // context.drawImage(playerFire,this.x, this.y, width, height);
+    context.fillStyle = "yellow";
+    context.beginPath();
+    context.arc(
+      this.x + width / 2,
+      this.y + height / 2,
+      this.width / 10,
+      0,
+      2 * Math.PI,
+      false
+    );
+    context.fill();
 
     for (let i = 0; i < NumRows; i++) {
       for (let j = 0; j < NumCols; j++) { 
@@ -434,6 +434,17 @@ function updatePositions() {
     document.getElementById("playerhp").style.display="none";
     document.getElementById("timer").style.display="none";
   }
+  document.getElementById("Score").style.display="flex";
+  document.getElementById("Score").innerHTML="Score:"+SCORE;
+
+
+  document.getElementById("playerhp").style.display="flex";
+  document.getElementById("playerhp").innerHTML= "Player HP: " +playerHp;
+
+  document.getElementById("timer").style.display="flex";
+  document.getElementById("timer").innerHTML= "Time left: " +timeLeft;
+
+
   moveEnemyShips();
   friendly_ship.moveFiers()
   enemy_fire();
