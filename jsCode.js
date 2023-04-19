@@ -90,6 +90,13 @@ document.getElementById("timelimit").addEventListener("input", function() {
 //   this.down = false;
 //   this.space = false;
 // };
+var keyPressedState = {
+  left: false,
+  right:false,
+  up:false, 
+  down:false,
+  space: false,
+};
 
 
 function SpaceShip(x, y, width, height) {
@@ -333,9 +340,9 @@ function setupGame() {
   // document.addEventListener("keyup", function(event){
   //   keyUpHandler(event);
   // });
-  document.addEventListener("keydown", function (event) {
-    keyDownHandler(event);
-  });
+  // document.addEventListener("keydown", function (event) {
+  //   keyDownHandler(event);
+  // });
 
   inGame = false;
   EnemyMove = "right";
@@ -448,6 +455,47 @@ function stopGame() {
 
 // called every TIME_INTERVAL milliseconds
 function updatePositions() {
+  if(inGame== true){
+    addEventListener("keydown", (event) => {
+      event.preventDefault()
+      if (event.key == LEFT_KEY)
+          keyPressedState.left = true
+    
+      if (event.key == RIGHT_KEY)
+          keyPressedState.right = true
+    
+      if (event.key == UP_KEY)
+          keyPressedState.up = true
+    
+      if (event.key == DOWN_KEY)
+          keyPressedState.down = true
+    
+      if (event.key == FIRE_KEY){
+          keyPressedState.space = true
+      }
+    });
+    
+    addEventListener("keyup", (event) => {
+      event.preventDefault()
+      if (event.key == LEFT_KEY)
+          keyPressedState.left = false
+    
+      if (event.key == RIGHT_KEY)
+          keyPressedState.right = false
+    
+      if (event.key == UP_KEY)
+          keyPressedState.up = false
+    
+      if (event.key == DOWN_KEY)
+          keyPressedState.down = false
+    
+      if (event.key == FIRE_KEY){
+          keyPressedState.space = false
+      }
+    });  
+  };
+  
+
   if ((playerHp == 0 || SCORE == 250)&& flag==true){
     flag = false;
     endGame();
@@ -468,7 +516,7 @@ function updatePositions() {
     document.getElementById("timer").style.display="flex";
     document.getElementById("timer").innerHTML= "Time left: " +timeLeft;  
   }
-  // movePlayer();
+  movePlayer();
   moveEnemyShips();
   friendly_ship.moveFiers()
   enemy_fire();
@@ -809,29 +857,29 @@ function checkSetUp(
   return true;
 }
 
-function keyDownHandler(event) {
-    switch (event.keyCode) {
-      case LEFT_KEY: // left arrow
-        friendly_ship.moveLeft();
-        break;
-      case RIGHT_KEY: // right arrow
-        friendly_ship.moveRight();
-        break;
-      case UP_KEY: // up arrow
-        friendly_ship.moveUp();
-        break;
-      case DOWN_KEY: // down arrow
-        friendly_ship.moveDown();
-        break;
-      case FIRE_KEY: // space bar
-        if(FIRE_COUNT>0){
+// function keyDownHandler(event) {
+//     switch (event.keyCode) {
+//       case LEFT_KEY: // left arrow
+//         friendly_ship.moveLeft();
+//         break;
+//       case RIGHT_KEY: // right arrow
+//         friendly_ship.moveRight();
+//         break;
+//       case UP_KEY: // up arrow
+//         friendly_ship.moveUp();
+//         break;
+//       case DOWN_KEY: // down arrow
+//         friendly_ship.moveDown();
+//         break;
+//       case FIRE_KEY: // space bar
+//         if(FIRE_COUNT>0){
           
-          friendly_ship.fire();
+//           friendly_ship.fire();
 
-        }
-        break;
-    }
-  };
+//         }
+//         break;
+//     }
+//   };
 
 function moveEnemyShips() {
   if (
@@ -874,61 +922,106 @@ function endGame(){
   return;
 };
 
+
+
 // if(inGame== true){
 //   addEventListener("keydown", (event) => {
 //     event.preventDefault()
-//     if (event.key == "ArrowLeft")
+//     if (event.key == LEFT_KEY)
 //         keyPressedState.left = true
   
-//     if (event.key == "ArrowRight")
+//     if (event.key == RIGHT_KEY)
 //         keyPressedState.right = true
   
-//     if (event.key == "ArrowUp")
+//     if (event.key == UP_KEY)
 //         keyPressedState.up = true
   
-//     if (event.key == "ArrowDown")
+//     if (event.key == DOWN_KEY)
 //         keyPressedState.down = true
   
-//     if (event.key == " "){
+//     if (event.key == FIRE_KEY){
 //         keyPressedState.space = true
 //     }
 //   });
   
 //   addEventListener("keyup", (event) => {
 //     event.preventDefault()
-//     if (event.key == "ArrowLeft")
+//     if (event.key == LEFT_KEY)
 //         keyPressedState.left = false
   
-//     if (event.key == "ArrowRight")
+//     if (event.key == RIGHT_KEY)
 //         keyPressedState.right = false
   
-//     if (event.key == "ArrowUp")
+//     if (event.key == UP_KEY)
 //         keyPressedState.up = false
   
-//     if (event.key == "ArrowDown")
+//     if (event.key == DOWN_KEY)
 //         keyPressedState.down = false
   
-//     if (event.key == " "){
+//     if (event.key == FIRE_KEY){
 //         keyPressedState.space = false
 //     }
 //   });  
 // };
-// function movePlayer(){
-//   if (inGame) {
-//     if(keyPressedState.left == true){
-//       friendly_ship.moveLeft();
-//     }
-//     if(keyPressedState.right == true){
-//       friendly_ship.moveRight();
-//     }
-//     if(keyPressedState.up == true){
-//       friendly_ship.moveUp();
-//     }
-//     if(keyPressedState.left == true){
-//       friendly_ship.moveDown();
-//     }
-//   }
-// };
+
+function keyUpHandler(event){
+  if (inGame==true){
+    event.preventDefault();
+    if (event.key == LEFT_KEY)
+        keyPressedState.left = false
+
+    if (event.key == RIGHT_KEY)
+        keyPressedState.right = false
+
+    if (event.key == UP_KEY)
+        keyPressedState.up = false
+
+    if (event.key == DOWN_KEY)
+        keyPressedState.down = false
+
+    if (event.key == FIRE_KEY){
+        keyPressedState.space = false
+    } 
+  }
+};
+
+function keyDownHandler(event){
+  if (inGame == true){
+    event.preventDefault();
+    if (event.key == LEFT_KEY)
+        keyPressedState.left = true
+
+    if (event.key == RIGHT_KEY)
+        keyPressedState.right = true
+
+    if (event.key == UP_KEY)
+        keyPressedState.up = true
+
+    if (event.key == DOWN_KEY)
+        keyPressedState.down = true
+
+    if (event.key == FIRE_KEY){
+        keyPressedState.space = true
+    }
+  }
+};
+
+function movePlayer(){
+  if (inGame) {
+    if(keyPressedState.left == true){
+      friendly_ship.moveLeft();
+    }
+    if(keyPressedState.right == true){
+      friendly_ship.moveRight();
+    }
+    if(keyPressedState.up == true){
+      friendly_ship.moveUp();
+    }
+    if(keyPressedState.left == true){
+      friendly_ship.moveLeft();
+    }
+  }
+};
 
 
 window.addEventListener("load", setupGame, false);
