@@ -900,29 +900,29 @@ function checkSetUp(
   return true;
 }
 
-// function keyDownHandler(event) {
-//     switch (event.keyCode) {
-//       case LEFT_KEY: // left arrow
-//         friendly_ship.moveLeft();
-//         break;
-//       case RIGHT_KEY: // right arrow
-//         friendly_ship.moveRight();
-//         break;
-//       case UP_KEY: // up arrow
-//         friendly_ship.moveUp();
-//         break;
-//       case DOWN_KEY: // down arrow
-//         friendly_ship.moveDown();
-//         break;
-//       case FIRE_KEY: // space bar
-//         if(FIRE_COUNT>0){
+function keyDownHandler(event) {
+    switch (event.keyCode) {
+      case LEFT_KEY: // left arrow
+        friendly_ship.moveLeft();
+        break;
+      case RIGHT_KEY: // right arrow
+        friendly_ship.moveRight();
+        break;
+      case UP_KEY: // up arrow
+        friendly_ship.moveUp();
+        break;
+      case DOWN_KEY: // down arrow
+        friendly_ship.moveDown();
+        break;
+      case FIRE_KEY: // space bar
+        if(FIRE_COUNT>0){
           
-//           friendly_ship.fire();
+          friendly_ship.fire();
 
-//         }
-//         break;
-//     }
-//   };
+        }
+        break;
+    }
+  };
 
 function moveEnemyShips() {
   if (
@@ -1007,47 +1007,47 @@ function endGame(){
 //   });  
 // };
 
-function keyUpHandler(event){
-  if (inGame==true){
-    event.preventDefault();
-    if (event.key == LEFT_KEY)
-        keyPressedState.left = false
+// function keyUpHandler(event){
+//   if (inGame==true){
+//     event.preventDefault();
+//     if (event.key == LEFT_KEY)
+//         keyPressedState.left = false
 
-    if (event.key == RIGHT_KEY)
-        keyPressedState.right = false
+//     if (event.key == RIGHT_KEY)
+//         keyPressedState.right = false
 
-    if (event.key == UP_KEY)
-        keyPressedState.up = false
+//     if (event.key == UP_KEY)
+//         keyPressedState.up = false
 
-    if (event.key == DOWN_KEY)
-        keyPressedState.down = false
+//     if (event.key == DOWN_KEY)
+//         keyPressedState.down = false
 
-    if (event.key == FIRE_KEY){
-        keyPressedState.space = false
-    } 
-  }
-};
+//     if (event.key == FIRE_KEY){
+//         keyPressedState.space = false
+//     } 
+//   }
+// };
 
-function keyDownHandler(event){
-  if (inGame == true){
-    event.preventDefault();
-    if (event.key == LEFT_KEY)
-        keyPressedState.left = true
+// function keyDownHandler(event){
+//   if (inGame == true){
+//     event.preventDefault();
+//     if (event.key == LEFT_KEY)
+//         keyPressedState.left = true
 
-    if (event.key == RIGHT_KEY)
-        keyPressedState.right = true
+//     if (event.key == RIGHT_KEY)
+//         keyPressedState.right = true
 
-    if (event.key == UP_KEY)
-        keyPressedState.up = true
+//     if (event.key == UP_KEY)
+//         keyPressedState.up = true
 
-    if (event.key == DOWN_KEY)
-        keyPressedState.down = true
+//     if (event.key == DOWN_KEY)
+//         keyPressedState.down = true
 
-    if (event.key == FIRE_KEY){
-        keyPressedState.space = true
-    }
-  }
-};
+//     if (event.key == FIRE_KEY){
+//         keyPressedState.space = true
+//     }
+//   }
+// };
 
 function movePlayer(){
   if (inGame) {
