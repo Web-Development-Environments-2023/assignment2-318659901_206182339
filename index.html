@@ -133,8 +133,8 @@
               </tr>
             </table>
           </td>
-          <td class="screen" style="height: 106vh;">
-            <canvas id="theCanvas" style="width: 99%; height: 85%;"></canvas>
+          <td class="screen" style="height: 106vh; ">
+            <canvas id="theCanvas" style="width: 180vh; height: 85%;"></canvas>
           </td>
         </tr>
       </table>
@@ -167,7 +167,38 @@
         <input type="number" id="timelimit" min="2" value="2" style="width: 10ch;"><br/><br/>
         
         <label for="shootchange">Shooting Button:</label><br/>
-        <label for="shootchange" id="shootlabel">Space</label>
+        <label for="shootchange">Shooting Button:</label><br/>
+        <select id="shootchange">
+          <option value="Space">Space</option>
+          <!-- Generate options for all letters from A to Z -->
+          <script>
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            for (let i = 0; i < letters.length; i++) {
+              document.write(`<option value="Key${letters[i]}">${letters[i]}</option>`);
+            }
+          </script>
+        </select>
+        <button onclick="assignKey()">Assign key</button>
+        <label id="shootlabel">Space</label>
+        <label id="listeninglabel" style="visibility: hidden;">Assigning key...</label><br/><br/>
+
+        <script>
+          //   const shootchange = document.querySelector('#shootchange');
+          // shootchange.addEventListener('click', () => {
+          //     event.preventDefault();
+          //     document.getElementById("listeninglabel").style.visibility = "visible";
+          //   document.addEventListener('keydown', keydownListener);
+          // });
+          function assignKey() {
+            event.preventDefault();
+            document.getElementById("listeninglabel").style.visibility = "visible";
+            const shootchange = document.querySelector('#shootchange');
+            const selectedKey = shootchange.value;
+            document.getElementById("shootlabel").innerHTML = selectedKey;
+          }
+        </script>
+
+        <!-- <label for="shootchange" id="shootlabel">Space</label>
         <button id="shootchange">Assign key</button>
         <label for="shootchange" id="listeninglabel" style="visibility: hidden;">  Assigning key...</label><br/><br/>
 
@@ -187,7 +218,7 @@
               document.getElementById("listeninglabel").style.visibility = "visible";
             document.addEventListener('keydown', keydownListener);
           });
-        </script>
+        </script> -->
                         
         <input type="reset" value="Default Setting" onclick="shootlabel.innerHTML='Space'"><br/>
         <input type="submit" id="submitplay" value="Play!">

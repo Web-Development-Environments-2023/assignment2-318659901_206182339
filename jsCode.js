@@ -11,7 +11,39 @@ var playerY;
 
 var floorY;
 var topY;
+const keyCodeMap = {
+  "Space": 32,
+  "KeyA": 65,
+  "KeyB": 66,
+  "KeyC": 67,
+  "KeyD": 68,
+  "KeyE": 69,
+  "KeyF": 70,
+  "KeyG": 71,
+  "KeyH": 72,
+  "KeyI": 73,
+  "KeyJ": 74,
+  "KeyK": 75,
+  "KeyL": 76,
+  "KeyM": 77,
+  "KeyN": 78,
+  "KeyO": 79,
+  "KeyP": 80,
+  "KeyQ": 81,
+  "KeyR": 82,
+  "KeyS": 83,
+  "KeyT": 84,
+  "KeyU": 85,
+  "KeyV": 86,
+  "KeyW": 87,
+  "KeyX": 88,
+  "KeyY": 89,
+  "KeyZ": 90
+};
 
+//sounds
+var HitSound= new Audio("/items/sounds/AlienDeath.mp3");
+var PlayerDeath= new Audio("/items/sounds/PlayerDeath.mp3");
 //users and passswords
 var user1 = {
   password: "testuser",
@@ -50,7 +82,7 @@ var SCORE = 0;
 // constants for game play
 var TIME_INTERVAL = 5; // screen refresh interval in milliseconds
 var ENEMY_SPEED = 1.5; // Enemy speed multiplier
-var FRIENDLY_SPEED = 35; // Friendly speed multiplier
+var FRIENDLY_SPEED = 20; // Friendly speed multiplier
 var FRIENDLY_FIRE_SPEED = 3;
 var EnemyFireSpeed = 2;
 var EnemyFireCount = 1;
@@ -79,6 +111,7 @@ let timelimit = 2; // Set initial value of timelimit to 2
 document.getElementById("timelimit").addEventListener("input", function() {
   timelimit = parseInt(this.value); // Update timelimit whenever the input value changes
 });
+// document.getElementById("shootlabel").innerHTML
 // const timelimitInput = document.getElementById("timelimit");
 // const timelimit = parseInt(timelimitInput.value);
 
@@ -243,6 +276,8 @@ function FriendlyFire(x, y, width, height) {
           FIRE_COUNT++;
           SCORE+=5*(4-i);
           document.getElementById("Score").innerHTML="Score:"+SCORE;
+          HitSound.pause();
+          HitSound.play();
         } 
         
       }
@@ -273,6 +308,7 @@ function EnemyFire(x, y, width, height){
       }
       else{
         playerHp -= 1;
+        PlayerDeath.play();
         friendly_ship.FIRE_ARR=friendly_ship.FIRE_ARR.filter((item)=>item!=this);
         friendly_ship.x =  0.8 * Math.random() * canvasWidth;;
         friendly_ship.y = canvasHeight-153;
@@ -334,6 +370,10 @@ function setupGame() {
   //   keyUpHandler(event);
   // });
   document.addEventListener("keydown", function (event) {
+    if (event.keyCode === 32) {
+      // Prevent space key from triggering other elements
+      event.preventDefault();
+    }
     keyDownHandler(event);
   });
 
@@ -684,7 +724,10 @@ function showScore(){
 function gameSettings(timelimitt, shoot){  
   // var shootingKeyCode = document.getElementById("shootlabel").innerHTML;
   event.preventDefault();
-  FIRE_KEY = 32;
+  
+  const fireKeyEventCode = document.getElementById("shootlabel").innerHTML;
+  const fireKeyCode = keyCodeMap[fireKeyEventCode];
+  FIRE_KEY=fireKeyCode;
   timeLeft = timelimit * 60;
   newTime = timelimit * 60;
   // event.stopPropagation();
@@ -704,7 +747,7 @@ function LoadGame() {
   // document.getElementById("Welcome").style.display = "none";
   // document.getElementById("Configuration").style.display = "none";
 
-  document.getElementById("Game").style.display = "block";
+  document.getElementById("Game").style.display = "flex";
   if (canvas!=undefined){
     canvas.style.display="none"
   }

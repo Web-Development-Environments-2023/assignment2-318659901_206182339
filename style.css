@@ -25,6 +25,7 @@ overflow: hidden;
 align-items: center;
 align-self: start;
 font-family: Arial, Helvetica, sans-serif;
+z-index: 999;
 }
 .game-title{
   width: 100%;
@@ -77,7 +78,7 @@ width: 7vw;
   .Game {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
     width: 100%;
     min-height: 100vh; /* set the minimum height of the game container to 100vh */
@@ -133,34 +134,36 @@ button:hover,
   }
 
   .screen {
-    flex: 1; /* set the game screen to take up remaining space */
-    max-height: 300vh; /* set the maximum height of the game screen to 90vh */
+    flex: 1;
+    max-height: calc(120vh - 150px); /* Subtract the height of the menu bar and footer from 100vh */
     max-width: 800vh;
-    /* background-color: #000; set the background color of the game screen */
     margin-top: 100px;
-    overflow: hidden; /* hide any overflow from canvas element */
+    overflow: hidden;
     position: relative;
+    height: calc(100vh - 150px);
+    /* width: 1000px; */
   }
-
-  /* #theCanvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-  } */
+  /* .canvas-container {
+    position: relative; /* set the parent element to relative position so that the child element can be positioned relative to it */
+    /* height: 0; /* set the height to 0 so that the child element can overflow from the bottom */
+   /* padding-top: 100%; /* set the padding-top to a percentage value that corresponds to the desired height of the canvas from above */
   
   canvas {
     border: 1px solid rgb(252, 248, 248);
-    width: 100%;
-    height: 100%;
-    display: block;
+    width: 800vh; /* Set the width to 100% to take up the entire width of its container */
+    /*height: 100%; /* Set the height to 100% to take up the entire height of its container */
+    display: flex;
     transform-origin: center; /* set the transform origin to top left corner of the canvas */
     /* transform: scale(0.85);  */
     background-image: url('/items/inGameBackground.jpeg');
     background-size: cover;
-    height: 90vh;
+    bottom: 0;
+    transform-origin: top;
+    transform: scaleY(1.1); 
+    
+    
+    
+   /* height: 90vh; /* You can adjust the height to a percentage or pixel value as needed */
   }
   
 
