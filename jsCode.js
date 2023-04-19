@@ -209,6 +209,8 @@ function FriendlyFire(x, y, width, height) {
   this.y = y;
   this.width = width;
   this.height = height;
+  this.img = new Image();
+  this.img.src = "items/playerFire.png";
   this.draw = function () {
     if(this.y<=-10){
       friendly_ship.FIRE_ARR=friendly_ship.FIRE_ARR.filter((item)=>item!=this);
@@ -219,17 +221,18 @@ function FriendlyFire(x, y, width, height) {
     // playerFire = new image();
     // playerFire.src = "/items/playerFire.png";
     // context.drawImage(playerFire,this.x, this.y, width, height);
-    context.fillStyle = "yellow";
-    context.beginPath();
-    context.arc(
-      this.x + width / 2,
-      this.y + height / 2,
-      this.width / 10,
-      0,
-      2 * Math.PI,
-      false
-    );
-    context.fill();
+    // context.fillStyle = "yellow";
+    // context.beginPath();
+    // context.arc(
+    //   this.x + width / 2,
+    //   this.y + height / 2,
+    //   this.width / 10,
+    //   0,
+    //   2 * Math.PI,
+    //   false
+    // );
+    // context.fill();
+    context.drawImage(this.img, this.x, this.y, 50, 50)
 
     for (let i = 0; i < NumRows; i++) {
       for (let j = 0; j < NumCols; j++) { 
@@ -257,6 +260,8 @@ function EnemyFire(x, y, width, height){
   this.y = y;
   this.width = width;
   this.height = height;
+  this.img = new Image();
+  this.img.src = "items/fire1.png";
   this.final=false;
   this.draw = function () {
     if(Math.abs(friendly_ship.x -this.x)<=40&&Math.abs(friendly_ship.y - this.y + this.height)<=120){
@@ -269,23 +274,24 @@ function EnemyFire(x, y, width, height){
       else{
         playerHp -= 1;
         friendly_ship.FIRE_ARR=friendly_ship.FIRE_ARR.filter((item)=>item!=this);
-        friendly_ship.x = 0;
+        friendly_ship.x =  0.8 * Math.random() * canvasWidth;;
         friendly_ship.y = canvasHeight-153;
       }
     }
-    context.fillStyle = "black";
-    context.beginPath();
-    enemyFireX = this.x;
-    enemyFireY = this.y;
-    context.arc(
-      this.x + width / 2,
-      this.y + height / 2,
-      this.width / 10,
-      0,
-      2 * Math.PI,
-      false
-    );
-    context.fill();
+    // context.fillStyle = "black";
+    // context.beginPath();
+    // enemyFireX = this.x;
+    // enemyFireY = this.y;
+    // context.arc(
+    //   this.x + width / 2,
+    //   this.y + height / 2,
+    //   this.width / 10,
+    //   0,
+    //   2 * Math.PI,
+    //   false
+    context.drawImage(this.img, this.x, this.y, 50, 50);
+    
+    // context.fill();
   };
   this.move = function () {
     if (times>0 && speedTime - 5 == timeLeft){
@@ -821,6 +827,7 @@ function keyDownHandler(event) {
         if(FIRE_COUNT>0){
           
           friendly_ship.fire();
+
         }
         break;
     }
@@ -830,10 +837,10 @@ function moveEnemyShips() {
   if (
     EnemyMove == "right" &&
     enemy_ships[0][NumCols - 1].x + enemy_ships[0][NumCols - 1].width >=
-      canvasWidth - 100
+      canvasWidth - 60
   ) {
     EnemyMove = "left";
-  } else if (EnemyMove == "left" && enemy_ships[0][0].x <= 100) {
+  } else if (EnemyMove == "left" && enemy_ships[0][0].x <= 0) {
     EnemyMove = "right";
   }
   for (let i = 0; i < NumRows; i++) {
