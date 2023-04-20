@@ -44,6 +44,8 @@ const keyCodeMap = {
 //sounds
 var HitSound= new Audio("/items/sounds/AlienDeath.mp3");
 var PlayerDeath= new Audio("/items/sounds/PlayerDeath.mp3");
+var youLost = new Audio("/items/daffy23.mp3")
+
 //users and passswords
 var user1 = {
   password: "testuser",
@@ -82,7 +84,7 @@ var SCORE = 0;
 // constants for game play
 var TIME_INTERVAL = 5; // screen refresh interval in milliseconds
 var ENEMY_SPEED = 1.5; // Enemy speed multiplier
-var FRIENDLY_SPEED = 20; // Friendly speed multiplier
+var FRIENDLY_SPEED = 4; // Friendly speed multiplier
 var FRIENDLY_FIRE_SPEED = 3;
 var EnemyFireSpeed = 2;
 var EnemyFireCount = 1;
@@ -175,17 +177,33 @@ function FriendlySpaceShip(x, y, width, height) {
   //     this.FIRE_ARR[i].draw();
   //   }
   // };
-  this.moveDown = function () {
-    this.y = Math.min(this.y + FRIENDLY_SPEED, floorY);
-  };
-  this.moveUp = function () {
-    this.y = Math.max(this.y - FRIENDLY_SPEED, topY);
-  };
-  this.moveLeft = function () {
-    this.x = Math.max(this.x - FRIENDLY_SPEED, 0);
-  };
-  this.moveRight = function () {
-    this.x = Math.min(this.x + FRIENDLY_SPEED, canvasWidth * 0.9);
+
+  // this.moveDown = function () {
+  //   this.y = Math.min(this.y + FRIENDLY_SPEED, floorY);
+  // };
+  // this.moveUp = function () {
+  //   this.y = Math.max(this.y - FRIENDLY_SPEED, topY);
+  // };
+  // this.moveLeft = function () {
+  //   this.x = Math.max(this.x - FRIENDLY_SPEED, 0);
+  // };
+  // this.moveRight = function () {
+  //   this.x = Math.min(this.x + FRIENDLY_SPEED, canvasWidth * 0.9);
+  // };
+
+  this.move = function() {
+    if (keyPressedState.left) {
+      this.x = Math.max(this.x - FRIENDLY_SPEED, 0);
+    }
+    if (keyPressedState.right) {
+      this.x = Math.min(this.x + FRIENDLY_SPEED, canvasWidth * 0.9);
+    }
+    if (keyPressedState.up) {
+      this.y = Math.max(this.y - FRIENDLY_SPEED, topY);
+    }
+    if (keyPressedState.down) {
+      this.y = Math.min(this.y + FRIENDLY_SPEED, floorY);
+    };
   };
   this.fire = function () {
     FIRE_COUNT--;
@@ -276,7 +294,7 @@ function FriendlyFire(x, y, width, height) {
 
     for (let i = 0; i < NumRows; i++) {
       for (let j = 0; j < NumCols; j++) { 
-        if(enemy_ships[i][j].isAlive && Math.abs(enemy_ships[i][j].x-this.x)<10&&Math.abs(enemy_ships[i][j].y-this.y-10)<=10){
+        if(enemy_ships[i][j].isAlive && Math.abs(enemy_ships[i][j].x-this.x)<50&&Math.abs(enemy_ships[i][j].y-this.y-10)<=30){
           enemy_ships[i][j].isAlive=false;
           friendly_ship.FIRE_ARR=friendly_ship.FIRE_ARR.filter((item)=>item!=this);
           friendly_ship.FireNum--;
@@ -431,6 +449,11 @@ function resetElements() {
   canvasWidth = w;
   canvasHeight = h;
   flag = true;
+
+  keyPressedState.left = false;
+  keyPressedState.right = false;
+  keyPressedState.up = false;
+  keyPressedState.down = false;
   
   document.getElementById("Score").style.display="flex";
   document.getElementById("Score").innerHTML="Score:"+SCORE;
@@ -497,17 +520,17 @@ function stopGame() {
 function updatePositions() {
   if(inGame== true){
     addEventListener("keydown", (event) => {
-      event.preventDefault()
-      if (event.key == LEFT_KEY)
+      event.preventDefault()  
+      if (event.key == "ArrowLeft")
           keyPressedState.left = true
     
-      if (event.key == RIGHT_KEY)
+      if (event.key == "ArrowRight")
           keyPressedState.right = true
     
-      if (event.key == UP_KEY)
+      if (event.key == "ArrowUp")
           keyPressedState.up = true
     
-      if (event.key == DOWN_KEY)
+      if (event.key == "ArrowDown")
           keyPressedState.down = true
     
       if (event.key == FIRE_KEY){
@@ -517,16 +540,16 @@ function updatePositions() {
     
     addEventListener("keyup", (event) => {
       event.preventDefault()
-      if (event.key == LEFT_KEY)
+      if (event.key == "ArrowLeft")
           keyPressedState.left = false
     
-      if (event.key == RIGHT_KEY)
+      if (event.key == "ArrowRight")
           keyPressedState.right = false
     
-      if (event.key == UP_KEY)
+      if (event.key == "ArrowUp")
           keyPressedState.up = false
     
-      if (event.key == DOWN_KEY)
+      if (event.key == "ArrowDown")
           keyPressedState.down = false
     
       if (event.key == FIRE_KEY){
@@ -556,7 +579,8 @@ function updatePositions() {
     document.getElementById("timer").style.display="flex";
     document.getElementById("timer").innerHTML= "Time left: " +timeLeft;  
   }
-  movePlayer();
+  // movePlayer();
+  friendly_ship.move();
   moveEnemyShips();
   friendly_ship.moveFiers()
   enemy_fire();
@@ -902,18 +926,18 @@ function checkSetUp(
 
 function keyDownHandler(event) {
     switch (event.keyCode) {
-      case LEFT_KEY: // left arrow
-        friendly_ship.moveLeft();
-        break;
-      case RIGHT_KEY: // right arrow
-        friendly_ship.moveRight();
-        break;
-      case UP_KEY: // up arrow
-        friendly_ship.moveUp();
-        break;
-      case DOWN_KEY: // down arrow
-        friendly_ship.moveDown();
-        break;
+      // case LEFT_KEY: // left arrow
+      //   friendly_ship.moveLeft();
+      //   break;
+      // case RIGHT_KEY: // right arrow
+      //   friendly_ship.moveRight();
+      //   break;
+      // case UP_KEY: // up arrow
+      //   friendly_ship.moveUp();
+      //   break;
+      // case DOWN_KEY: // down arrow
+      //   friendly_ship.moveDown();
+      //   break;
       case FIRE_KEY: // space bar
         if(FIRE_COUNT>0){
           
@@ -954,7 +978,10 @@ function endGame(){
   }
   else if (playerHp == 0)
   {
+    youLost.pause();
+    youLost.play();
     alert("You Lost");
+    // youLost.pause();
     if (username != null){
       addScore(users[username].firstname, SCORE);
     }
