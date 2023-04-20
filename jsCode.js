@@ -44,7 +44,8 @@ const keyCodeMap = {
 //sounds
 var HitSound= new Audio("/items/sounds/AlienDeath.mp3");
 var PlayerDeath= new Audio("/items/sounds/PlayerDeath.mp3");
-var youLost = new Audio("/items/daffy23.mp3")
+var youLost = new Audio("/items/daffy23.mp3");
+var champion = new Audio("/items/daffy119.mp3");
 
 //users and passswords
 var user1 = {
@@ -83,7 +84,7 @@ var SCORE = 0;
 
 // constants for game play
 var TIME_INTERVAL = 5; // screen refresh interval in milliseconds
-var ENEMY_SPEED = 1.5; // Enemy speed multiplier
+var ENEMY_SPEED = 1; // Enemy speed multiplier
 var FRIENDLY_SPEED = 4; // Friendly speed multiplier
 var FRIENDLY_FIRE_SPEED = 3;
 var EnemyFireSpeed = 2;
@@ -357,7 +358,7 @@ function EnemyFire(x, y, width, height){
   this.move = function () {
     if (times>0 && speedTime - 5 == timeLeft){
       times--;
-      ENEMY_SPEED += 0.2;
+      ENEMY_SPEED += 0.5;
       speedTime-=5;
     }
       this.y=Math.min(this.y+EnemyFireSpeed,canvasHeight+100);
@@ -432,7 +433,7 @@ function resetElements() {
   times = 4;
   times2 = 4;
   EnemyFireSpeed = 2;
-  ENEMY_SPEED = 1.5;
+  ENEMY_SPEED = 1;
   speedTime = newTime;
   timeLeft = newTime;
   window.clearInterval( intervalTimer );
@@ -968,6 +969,8 @@ function moveEnemyShips() {
 function endGame(){
   let username = document.getElementById("Login_username").value;
   if (SCORE == 250){
+    champion.pause();
+    champion.play();
     alert("Champion");
     if (username != null){
       addScore(users[username].firstname, SCORE);

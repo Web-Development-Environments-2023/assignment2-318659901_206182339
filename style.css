@@ -116,11 +116,7 @@ width: 15vw;
 
 
 input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="date"],
-input[type="firstname"],
-input[type="lastname"],
+input[type="password"],input[type="email"],input[type="date"],input[type="firstname"],input[type="lastname"],
 input[type="reset"], #shootchange, input[type="submit"],input[type="number"]
 {
   width: 100%;
@@ -144,6 +140,9 @@ button:hover,
 #SubmitSignUp:hover,
 #SubmitLogin:hover{
   background-color:black;
+}
+#submitplay:hover{
+  background-color:ghostwhite;
 }
 
 @keyframes fadeIn {
