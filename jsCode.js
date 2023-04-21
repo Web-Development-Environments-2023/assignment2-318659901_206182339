@@ -664,21 +664,21 @@ function showGameOverDialog(message)
   let username = document.getElementById("Login_username").value;
   if (SCORE< 100){
 
-    alert("You can do better");
+    // alert("You can do better");
     if (username != null){
-      addScore(users[username].firstname, SCORE);
+      addScore(users[username].firstname, SCORE,"You can do better");
     }
     else{
-      addScore(user1.firstname, SCORE);
+      addScore(user1.firstname, SCORE,"You can do better");
     }
   }
   else{
-    alert("Winner");
+    // alert("Winner");
     if (username != null){
-      addScore(users[username].firstname, SCORE);
+      addScore(users[username].firstname, SCORE,"Winner");
     }
     else{
-      addScore(user1.firstname, SCORE);
+      addScore(user1.firstname, SCORE,"Winner");
     }
   }
 } // end function showGameOverDialog // end function showGameOverDialog
@@ -687,7 +687,7 @@ function showGameOverDialog(message)
 
 let scores = []; // Array to store the game scores
 
-function addScore(game, score) {
+function addScore(game, score, msg) {
   stopTimer();
   document.getElementById("Score").style.display="none";
   document.getElementById("playerhp").style.display="none";
@@ -699,8 +699,8 @@ function addScore(game, score) {
     canvas.style.display="none";
   }
   muteDivs();
-  scores.push({ game, score }); // Add game and score as an object to the scores array
-  updateScoreboard(game,score);
+  scores.push({ game, score,msg }); // Add game and score as an object to the scores array
+  updateScoreboard(game,score,msg);
   document.getElementById("scoreboard").style.display="flex";
 }
 
@@ -724,8 +724,10 @@ function addScore(game, score) {
       const newRow = scoreTable.insertRow();
       const gameCell = newRow.insertCell();
       const scoreCell = newRow.insertCell();
+      const msgCell = newRow.insertCell();
       gameCell.textContent = score.game;
       scoreCell.textContent = score.score;
+      msgCell.textContent = score.msg;
     });
   }
 
@@ -970,25 +972,24 @@ function endGame(){
   if (SCORE == 250){
     champion.pause();
     champion.play();
-    alert("Champion");
+    // alert("Champion");
     if (username != null){
-      addScore(users[username].firstname, SCORE);
+      addScore(users[username].firstname, SCORE,"Champion");
     }
     else{
-      addScore(user1.firstname, SCORE);
+      addScore(user1.firstname, SCORE,"Champion");
     }
   }
   else if (playerHp == 0)
   {
     youLost.pause();
     youLost.play();
-    alert("You Lost");
-    // youLost.pause();
+    // alert("You Lost");
     if (username != null){
-      addScore(users[username].firstname, SCORE);
+      addScore(users[username].firstname, SCORE,"You Lost");
     }
     else{
-      addScore(user1.firstname, SCORE);
+      addScore(user1.firstname, SCOR,"You Lost");
     }
   }
   return;
