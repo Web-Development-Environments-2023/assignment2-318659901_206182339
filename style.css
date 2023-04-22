@@ -1,6 +1,6 @@
 
 body {
-  background-image: url("/items/background.png");
+  background-image: url("items/background.png");
   background-size: cover;
   background-position: center;
   height: 100vh; /* Add this line */

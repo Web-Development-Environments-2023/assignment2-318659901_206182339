@@ -42,11 +42,12 @@ const keyCodeMap = {
 };
 
 //sounds
-var HitSound= new Audio("/items/sounds/AlienDeath.mp3");
-var PlayerDeath= new Audio("/items/sounds/PlayerDeath.mp3");
-var youLost = new Audio("/items/daffy23.mp3");
-var champion = new Audio("/items/daffy119.mp3");
-
+var HitSound= new Audio("items/sounds/AlienDeath.mp3");
+var PlayerDeath= new Audio("items/sounds/PlayerDeath.mp3");
+var youLost = new Audio("items/daffy23.mp3");
+var champion = new Audio("items/daffy119.mp3");
+var gameMusic = new Audio("items/sounds/Looney-Tunes-theme-song.mp3")
+gameMusic.loop=true;
 //users and passswords
 var user1 = {
   password: "testuser",
@@ -154,7 +155,7 @@ function FriendlySpaceShip(x, y, width, height) {
 
   this.draw = function(){
     player = new Image();
-    player.src = "/items/newPlayer.png";
+    player.src = "items/newPlayer.png";
     context.drawImage(player, this.x, this.y, 50,100);
     for(var i=0;i<this.FireNum;i++){
           this.FIRE_ARR[i].draw();
@@ -228,7 +229,7 @@ function EnemySpaceShip(x, y, width, height) {
       return;
     }
     enemy = new Image();
-    enemy.src = "/items/enemy.png";
+    enemy.src = "items/enemy.png";
     context.drawImage(enemy, this.x, this.y, 60,80);
   };
   // this.draw = function () {
@@ -295,7 +296,7 @@ function FriendlyFire(x, y, width, height) {
 
     for (let i = 0; i < NumRows; i++) {
       for (let j = 0; j < NumCols; j++) { 
-        if(enemy_ships[i][j].isAlive && Math.abs(enemy_ships[i][j].x-this.x)<50&&Math.abs(enemy_ships[i][j].y-this.y-10)<=30){
+        if(enemy_ships[i][j].isAlive && Math.abs(enemy_ships[i][j].x-this.x)<47&&Math.abs(enemy_ships[i][j].y-this.y-10)<=30){
           enemy_ships[i][j].isAlive=false;
           friendly_ship.FIRE_ARR=friendly_ship.FIRE_ARR.filter((item)=>item!=this);
           friendly_ship.FireNum--;
@@ -325,15 +326,17 @@ function EnemyFire(x, y, width, height){
   this.img.src = "items/fire1.png";
   this.final=false;
   this.draw = function () {
-    if((Math.abs(friendly_ship.x -this.x)<=40)&&(Math.abs(friendly_ship.y - this.y + this.height)<= 120)&&(this.y < 750)   ){
-      
+    if((Math.abs(friendly_ship.x -this.x)<=35)&&(Math.abs(friendly_ship.y - this.y + this.height)<= 120)&&(this.y < 750)   ){
+      // PlayerDeath.pause();
+      PlayerDeath.play();
+      PlayerDeath.currentTime = 0;
       if (playerHp==0){
         friendly_ship.FIRE_ARR=friendly_ship.FIRE_ARR.filter((item)=>item!=this);
         endGame();
       }
       else{
         playerHp -= 1;
-        PlayerDeath.play();
+       
         friendly_ship.FIRE_ARR=friendly_ship.FIRE_ARR.filter((item)=>item!=this);
         friendly_ship.x =  0.8 * Math.random() * canvasWidth;
         friendly_ship.y = canvasHeight-153;
@@ -444,7 +447,7 @@ function resetElements() {
   EnemyFireARR=[];
   let w = canvas.width;
   let h = canvas.height;
-  floorY = h * 0.8;
+  floorY = h * 0.85;
   topY = h * 0.6;
   canvasWidth = w;
   canvasHeight = h;
@@ -491,7 +494,8 @@ function resetElements() {
 function newGame() {
   // background = new image();
   // background.src = "items/background.png"
-  
+  gameMusic.currentTime=0;
+  gameMusic.play();
   // set up the game
   timeLeft = newTime;
   //speedTime = newTime;
@@ -499,7 +503,6 @@ function newGame() {
   resetElements();
   stopTimer();
   inGame = true;
-
   startTimer();
 } // end function newGame
 function stopGame() {
@@ -511,6 +514,7 @@ function stopGame() {
   document.getElementById("timer").style.display="none";
   window.clearInterval( intervalTimer );
   inGame = false;
+  gameMusic.pause();
   if(canvas!=undefined){
     canvas.style.display="none";
   }
@@ -661,6 +665,7 @@ function draw() {
 // display an alert when the game ends by end of time
 function showGameOverDialog(message)
 {
+  gameMusic.pause();
   let username = document.getElementById("Login_username").value;
   if (SCORE< 100){
 
@@ -822,6 +827,7 @@ function LoadGame() {
   // document.getElementById("Configuration").style.display = "none";
 
   document.getElementById("Game").style.display = "flex";
+  document.getElementById("footer").style.display= "none";
   if (canvas!=undefined){
     canvas.style.display="none"
   }
@@ -829,12 +835,17 @@ function LoadGame() {
 }
 
 function muteDivs() {
+  
   document.getElementById("Game").style.display = "none";
   document.getElementById("Login").style.display = "none";
   document.getElementById("SignUp").style.display = "none";
   document.getElementById("Welcome").style.display = "none";
   document.getElementById("Configuration").style.display = "none";
   document.getElementById("scoreboard").style.display = "none";
+  if (document.getElementById("Game").style.display === "none"){
+    stopGame();
+    document.getElementById("footer").style.display= "block";
+  }
 }
 
 function submitLogin() {
@@ -968,6 +979,7 @@ function moveEnemyShips() {
 }
 
 function endGame(){
+  gameMusic.pause();
   let username = document.getElementById("Login_username").value;
   if (SCORE == 250){
     champion.pause();
