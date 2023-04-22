@@ -105,7 +105,7 @@ var times = 4;
 var times2 = 4;
 var flag = true;
 
-
+let scores ; // Array to store the game scores
 var canvasWidth; // width of the canvas
 var canvasHeight; // height of the canvas
 
@@ -398,11 +398,14 @@ function setupGame() {
   //   keyUpHandler(event);
   // });
   document.addEventListener("keydown", function (event) {
-    if (event.keyCode === 32) {
-      // Prevent space key from triggering other elements
-      event.preventDefault();
+    if (inGame===true){
+      if (event.keyCode === 32) {
+        // Prevent space key from triggering other elements
+        event.preventDefault();
+      }
+     
+      keyDownHandler(event);
     }
-    keyDownHandler(event);
   });
 
   inGame = false;
@@ -507,13 +510,13 @@ function newGame() {
 } // end function newGame
 function stopGame() {
   // set up the game
-
+  inGame = false
   stopTimer();
   document.getElementById("Score").style.display="none";
   document.getElementById("playerhp").style.display="none";
   document.getElementById("timer").style.display="none";
   window.clearInterval( intervalTimer );
-  inGame = false;
+  // inGame = false;
   gameMusic.pause();
   if(canvas!=undefined){
     canvas.style.display="none";
@@ -522,44 +525,46 @@ function stopGame() {
 
 // called every TIME_INTERVAL milliseconds
 function updatePositions() {
-  if(inGame== true){
+  if(inGame=== true){
     addEventListener("keydown", (event) => {
-      event.preventDefault()  
-      if (event.key == "ArrowLeft")
-          keyPressedState.left = true
-    
-      if (event.key == "ArrowRight")
-          keyPressedState.right = true
-    
-      if (event.key == "ArrowUp")
-          keyPressedState.up = true
-    
-      if (event.key == "ArrowDown")
-          keyPressedState.down = true
-    
-      if (event.key == FIRE_KEY){
-          keyPressedState.space = true
-      }
-    });
+      if (inGame=== true){
+        event.preventDefault()  
+        if (event.key == "ArrowLeft")
+            keyPressedState.left = true
+      
+        if (event.key == "ArrowRight")
+            keyPressedState.right = true
+      
+        if (event.key == "ArrowUp")
+            keyPressedState.up = true
+      
+        if (event.key == "ArrowDown")
+            keyPressedState.down = true
+      
+        if (event.key == FIRE_KEY){
+            keyPressedState.space = true
+        }
+    }});
     
     addEventListener("keyup", (event) => {
-      event.preventDefault()
-      if (event.key == "ArrowLeft")
-          keyPressedState.left = false
-    
-      if (event.key == "ArrowRight")
-          keyPressedState.right = false
-    
-      if (event.key == "ArrowUp")
-          keyPressedState.up = false
-    
-      if (event.key == "ArrowDown")
-          keyPressedState.down = false
-    
-      if (event.key == FIRE_KEY){
-          keyPressedState.space = false
-      }
-    });  
+      if (inGame===true){
+        event.preventDefault()
+        if (event.key == "ArrowLeft")
+            keyPressedState.left = false
+      
+        if (event.key == "ArrowRight")
+            keyPressedState.right = false
+      
+        if (event.key == "ArrowUp")
+            keyPressedState.up = false
+      
+        if (event.key == "ArrowDown")
+            keyPressedState.down = false
+      
+        if (event.key == FIRE_KEY){
+            keyPressedState.space = false
+        }
+   } });  
   };
   
 
@@ -567,7 +572,7 @@ function updatePositions() {
     flag = false;
     endGame();
   }
-  if (inGame == false){
+  if (inGame === false){
     document.getElementById("Score").style.display="none";
     document.getElementById("playerhp").style.display="none";
     document.getElementById("timer").style.display="none";
@@ -690,7 +695,7 @@ function showGameOverDialog(message)
 
 // const scoreTable = document.getElementById("scoreTable");
 
-let scores = []; // Array to store the game scores
+
 
 function addScore(game, score, msg) {
   stopTimer();
@@ -859,6 +864,7 @@ function submitLogin() {
   }
   else {
     event.preventDefault();
+    scores=[];
     goConfiguration();
   }
 }
@@ -1001,7 +1007,7 @@ function endGame(){
       addScore(users[username].firstname, SCORE,"You Lost");
     }
     else{
-      addScore(user1.firstname, SCOR,"You Lost");
+      addScore(user1.firstname, SCORE,"You Lost");
     }
   }
   return;
