@@ -6,4 +6,4 @@
 Michal Alhindi 318659901
 Sean Hacmon 206182339
 
-Open the game here: https://web-development-environments-2023.github.io/assignment2-318659901_206182339/ 
+Open the game here: https://web-development-environments-2023.github.io/assignment2-318659901_206182339/
