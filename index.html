@@ -12,30 +12,39 @@
        
     </style>
     <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.cdnfonts.com/css/gibson" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/games" rel="stylesheet"> 
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Play" />
+
+    <!-- <style>
+      @import url('https://fonts.cdnfonts.com/css/gibson');
+</style> -->
+
+                
    
   </head>
   <body>
-    <div id="menu" class="start">
+    <nav id="menu" class="start">
       <img src="items/logo2.png" height="40" alt="Logo" class="logo">
       <!-- <h1 class="game-title">Space Invaders</h1> -->
-    
+      
+      <h1 class="game-title">Shooting Tunes</h1>
+      <ul>
       <li><a id="Home_menu" href="#">Home</a></li>
       <li><a id="About_menu" href="#">About</a></li>
-      <!-- <li>
-        <a id="Configuration_menu" href="#">Configuration</a>
-      </li> -->
+    
       <li><a id="Login_menu" href="#">Login</a></li>
-      <li><a id="SignUp_menu" href="#">Sign up</a></li>
-      <h1 class="game-title">Shooting Tunes</h1>
-    </div>
+      <li><a id="SignUp_menu" href="#">Register</a></li>
+    </ul>
+    </nav>
     <div id="Welcome" class="start" >
-      <h1>Welcome to Shooting Tunes Game</h1>
+      <h1 class="welcome_header">Welcome to</br/>Shooting Tunes</h1>
       <p>You need to Login so you can start playing.</p>
       <button><a id="Login_btn">Login</a></button>
-      <button id="SignUp_btn">SignUp</button>
+      <button id="SignUp_btn">Register</button>
     </div>
     <div id="Login" style="display: none">
-      <h1>Login</h1>
+      <h1 class="login_H">Login</h1>
       <form>
         <div class="form">
           <label for="username">Username:</label>
@@ -51,7 +60,7 @@
       </form>
     </div>
     <div id="SignUp" style="display: none">
-      <h1>Sign Up</h1>
+      <h1 class="signup_H">Sign Up</h1>
       <form>
         <div class="form">
           <label for="username">Username:</label>
@@ -128,7 +137,9 @@
               <tr>
                 <td><p id="Score" style="display: none"></p></td>
               </tr>
+              <tr>
               <td><p style="display: none; color: azure; font-size: 16px;" id="playerhp"></p></td>
+            </tr>
               <tr>
                 <td><p style="display: none; color: azure; font-size: 16px;" id="timer"></p></td>
               </tr>
@@ -142,12 +153,12 @@
       
     </div>
 
-    <dialog id="About" style="display: none">
+    <dialog id="About" style="display: none; background-image: url('items/wallpaper.jpg'); background-size: cover; background-position: center;">
       <form method="dialog">
         <button id="dialogClose" type="button">X</button><br /><br >
-        <h1> <font color ="black">About</font></h1>
-        <p id="dialogText">
-           <font color = "black">
+        <h1 style="font-family: 'Games', sans-serif; color: black;">About</h1>
+        <p id="dialogText" style="font-family: 'Play', sans-serif; color: black;">
+        
      Hello!
      <br/>
      We are Michal Alhindi and Sean Hacmon. <br/>
@@ -167,7 +178,7 @@
       </form>
     </dialog>
     <div id="Configuration" style="display: none">
-      <h1>Choose your game settings:</h1>
+      <h1 class="config_H">Choose your game settings:</h1>
        <!-- <form id="configForm" onsubmit="LoadGame()"> -->
         <form id="configForm" onsubmit="gameSettings(timelimit.value, shootlabel.innerHTML)">
         <label for="timelimit">Time limit:</label>
@@ -218,14 +229,14 @@
         </script>
    
                         
-        <input type="reset" value="Default Setting" onclick="shootlabel.innerHTML='Space' ;playerimage.value= 'items/enemy.png' ; updatePlayerImage()"><br/>
-        <input type="submit" id="submitplay" value="Play!">
+        <input type="reset" id= "Default" value="Default Setting" onclick="shootlabel.innerHTML='Space' ;playerimage.value= 'items/enemy.png' ; updatePlayerImage()"><br/>
+        <input type="submit" id="submitplay" value="Play">
        
     </form>
     </div>
 
     <div id="scoreboard">
-      <h1>Game Scoreboard</h1>
+      <h1 class="scoreboard_H">Game Over</h1>
       <table id="scoreTable" style="color: azure; width:80%; height: 300px;">
           <tr>
               <th>Player</th>

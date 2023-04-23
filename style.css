@@ -10,50 +10,146 @@ body {
   margin: 0;
   padding: 0;
 }
-
+/* 
 #menu {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 50px;
+  background: rgba(72, 61, 139, 0.7); /* Update background color to use rgba for transparency */
+  /*justify-content: center !important;
+  display: flex; /* Update display property to flex */
+  /*align-items: center;
+  align-self: start;
+  font-family: 'Games', sans-serif;
+  z-index: 999;
+}
+
+.game-title {
+  flex-grow: 1; /* Use flex-grow to expand the game title and fill the remaining space */
+ /* text-align: right; /* Center align the game title */
+ /* font-size: 20px;
+  padding-left: 20px;
+}
+
+.logo {
+  padding: 7px 20px;
+  opacity: 1;
+}
+ul {
+  /* Add the following styles to the ul element */
+ /* display: flex; /* Display the menu items as flex items */
+  /*align-items: center; /* Center align the menu items vertically */
+ /* list-style-type: none;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+}
+
+li {
+  list-style-type: none;
+}
+
+li a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+} */
+
+ #menu {
 position: fixed;
 top: 0;
 width: 100%;
 height:50px;
-background:darkslateblue; /* Change background color to #333 */
-display: block;
+background:rgba(72, 61, 139, 0.5); 
+justify-content: center !important; 
+/* Change background color to #333 */
+ display: flex;
 list-style-type: none;
 margin: 0;
 padding: 0;
 overflow: hidden;
 align-items: center;
 align-self: start;
-font-family: Arial, Helvetica, sans-serif;
+font-family: 'Games', sans-serif;
 z-index: 999;
 }
 .game-title{
   width: 100%;
-  height: 50px;
-  align-items: center;
-  font-size: 20px;
-}
-.logo {
-float: left;
-padding: 14px 20px;
-opacity: 1;
+  
+  align-items: left;
+  text-align: left;
+  font-size: 40px;
+  font-weight: 60;
+  background-image: linear-gradient(
+    -225deg,
+    #221748 0%,
+    #44107a 29%,
+    #bd79c7 67%,
+    #ebe8eb 100%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  color: #fff; 
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  animation: textclip 2s linear infinite;
+  display: inline-block;
 }
 
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+
+}
+.logo {
+  text-align: left;
+float: left;
+padding: 7px 20px;
+opacity: 1;
+}
+ul {
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+ /* justify-content: center; /* Update justify-content to center to center align the menu items */
+}
+/* ul {
+  /* Add the following styles to the ul element */
+  /*display: flex; /* Display the menu items as flex items */
+ /* align-items: center; /* Center align the menu items vertically */
+ /* list-style-type: none;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+} */
+
 li {
-float: right;
+  list-style-type: none;
 }
 
 li a {
-display: inline-block;
-color: white;
-text-align: center;
-padding: 14px 16px;
-text-decoration: none;
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
 }
 
 li a:hover {
-background-color: #111;
-}
+  background-color: #111;
+} 
 
 div {
 display: flex;
@@ -107,13 +203,15 @@ width: 15vw;
     }
   }
  button,
+ #Default,
+ #submitplay,
  #SubmitSignUp,
  #SubmitLogin{
-    font-family: Lora;
+    font-family: Games;
     letter-spacing: 10px;
     color: white;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 50;
     border: 2px solid #ccd5d9;
     background-color:darkslateblue;
     padding: 10px 20px;
@@ -122,8 +220,171 @@ width: 15vw;
     animation: fadeIn 1s ease-in forwards;
 }
 
+/* .welcome_header
+{
+   text-transform: uppercase;
+  background-image: linear-gradient(
+    -225deg,
+    #231557 0%,
+    #44107a 29%,
+    #ff1361 67%,
+    #fff800 100%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  color: #fff;
+  background-clip: text;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 2s linear infinite;
+  display: inline-block;
+  font-size: 50px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 800;
+}
 
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+} */
 
+/* *,
+*::before,
+*::after {
+  box-sizing: border-box;
+} */
+
+:root {
+  --color-primary: #ece1e0;
+  --color-secondary: #da9ae1;
+  --color-tertiary: #c870d8;
+  --color-quaternary: #9d44ab;
+  --color-quinary: #57266d;
+  
+  /* --color-primary: #5192ED;
+  --color-secondary: #69A1F0;
+  --color-tertiary: #7EAEF2;
+  --color-quaternary: #90BAF5;
+  --color-quinary: #A2C4F5;
+  */
+}
+/* 
+body {
+  min-height: 100vh;
+  font-family: canada-type-gibson, sans-serif;
+  font-weight: 300;
+  font-size: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #eff8e2;
+} */
+@import url('https://fonts.cdnfonts.com/css/gibson');
+@import url("https://fonts.googleapis.com/css?family=Raleway:900&display=swap");
+.login_H,
+.signup_H,
+.welcome_header,
+.scoreboard_H,
+.config_H {
+  text-shadow: 3px 3px 0 var(--color-secondary), 6px 6px 0 var(--color-tertiary),
+    9px 9px var(--color-quaternary), 12px 12px 0 var(--color-quinary);
+  font-family: 'Games', sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: calc(1rem + 4vw);
+  text-align: center;
+  margin: 0;
+  color: var(--color-primary);
+  /* //color: transparent;
+  //background-color: white;
+  //background-clip: text; */
+  animation: shadows 1.2s ease-in infinite, move 1.2s ease-in infinite;
+  letter-spacing: 0.4rem;
+}
+#scoreTable,
+#Score,
+#playerhp,
+#timer,
+#configForm,
+.form,
+.start p{
+  text-shadow: 2px 2px 0 var(--color-quinary);
+ 
+  font-family: 'Play', sans-serif;
+  font-weight: 50;
+  text-transform: uppercase;
+  font-size: 18px;
+  text-align: center;
+  margin: 0;
+  color: var(--color-primary);
+}
+@keyframes shadows {
+  0% {
+    text-shadow: none;
+  }
+  10% {
+    text-shadow: 3px 3px 0 var(--color-secondary);
+  }
+  20% {
+    text-shadow: 3px 3px 0 var(--color-secondary),
+      6px 6px 0 var(--color-tertiary);
+  }
+  30% {
+    text-shadow: 3px 3px 0 var(--color-secondary),
+      6px 6px 0 var(--color-tertiary), 9px 9px var(--color-quaternary);
+  }
+  40% {
+    text-shadow: 3px 3px 0 var(--color-secondary),
+      6px 6px 0 var(--color-tertiary), 9px 9px var(--color-quaternary),
+      12px 12px 0 var(--color-quinary);
+  }
+  50% {
+    text-shadow: 3px 3px 0 var(--color-secondary),
+      6px 6px 0 var(--color-tertiary), 9px 9px var(--color-quaternary),
+      12px 12px 0 var(--color-quinary);
+  }
+  60% {
+    text-shadow: 3px 3px 0 var(--color-secondary),
+      6px 6px 0 var(--color-tertiary), 9px 9px var(--color-quaternary),
+      12px 12px 0 var(--color-quinary);
+  }
+  70% {
+    text-shadow: 3px 3px 0 var(--color-secondary),
+      6px 6px 0 var(--color-tertiary), 9px 9px var(--color-quaternary);
+  }
+  80% {
+    text-shadow: 3px 3px 0 var(--color-secondary),
+      6px 6px 0 var(--color-tertiary);
+  }
+  90% {
+    text-shadow: 3px 3px 0 var(--color-secondary);
+  }
+  100% {
+    text-shadow: none;
+  }
+}
+
+@keyframes move {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  40% {
+    transform: translate(-12px, -12px);
+  }
+  50% {
+    transform: translate(-12px, -12px);
+  }
+  60% {
+    transform: translate(-12px, -12px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
 input[type="text"],
 input[type="password"],input[type="email"],input[type="date"],input[type="firstname"],input[type="lastname"],
 input[type="reset"], #shootchange, input[type="submit"],input[type="number"]
@@ -146,13 +407,13 @@ input[type="reset"], #shootchange, input[type="submit"],input[type="number"]
 } */
 
 button:hover,
+#Default:hover,
+#submitplay:hover,
 #SubmitSignUp:hover,
 #SubmitLogin:hover{
   background-color:black;
 }
-#submitplay:hover{
-  background-color:ghostwhite;
-}
+
 
 @keyframes fadeIn {
   0% {
