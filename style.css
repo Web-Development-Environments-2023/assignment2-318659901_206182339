@@ -83,7 +83,8 @@ width: 15vw;
     justify-content: left;
     align-items: center;
     width: 100%;
-    min-height: 100vh; /* set the minimum height of the game container to 100vh */
+    min-height: 100vh; 
+    overflow: hidden;/* set the minimum height of the game container to 100vh */
    /* background-color: #000; set the background color of the game container */
   }
 
@@ -96,6 +97,14 @@ width: 15vw;
   .settings tr {
     width: 7%;
     align-self: flex-start; /* align table rows to the top of the flex container */
+  }
+  @media only screen and (max-width: 768px) {
+    .settings {
+        max-height:106vh ;
+        max-width: 100%;
+        width: 100%;
+        padding: 10px;
+    }
   }
  button,
  #SubmitSignUp,
@@ -162,6 +171,7 @@ button:hover,
   }
 
   .screen {
+    width: 100%;
     flex: 1;
     max-height: calc(120vh - 150px); /* Subtract the height of the menu bar and footer from 100vh */
     max-width: 800vh;
@@ -178,22 +188,23 @@ button:hover,
   
   canvas {
     border: 1px solid rgb(252, 248, 248);
-    width: 800vh; /* Set the width to 100% to take up the entire width of its container */
+    /* width: 800vh;  */
+    width: 100%;/* Set the width to 100% to take up the entire width of its container */
     /*height: 100%; /* Set the height to 100% to take up the entire height of its container */
     display: flex;
     transform-origin: center; /* set the transform origin to top left corner of the canvas */
     /* transform: scale(0.85);  */
-    background-image: url('/items/inGameBackground.jpeg');
+    background-image: url('items/inGameBackground.jpeg');
     background-size: cover;
     bottom: 0;
     transform-origin: top;
     transform: scaleY(1.1); 
+    overflow: hidden;
     
     
     
    /* height: 90vh; /* You can adjust the height to a percentage or pixel value as needed */
   }
-  
 
 .footer {
 position: fixed;
@@ -203,6 +214,7 @@ height: 50px; /* You can adjust the height as needed */
 /* background-color: #333; */
 color: white;
 text-align: center;
+font-size: small;
 /* display: flex; */
 /* align-items: center; */
 /* justify-content: center; */
@@ -249,4 +261,8 @@ label{
   display: block;
   max-width: 100%; /* Set the maximum width to ensure the image fits inside the container */
   height: auto; /* Set the height to auto to maintain aspect ratio */
+}
+
+.highlight {
+  background-color: rgb(160, 150, 225); /* Set the desired background color */
 }

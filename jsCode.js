@@ -81,6 +81,7 @@ var RIGHT_KEY = 39;
 var UP_KEY = 38;
 var DOWN_KEY = 40;
 var FIRE_KEY;
+var EnemyPic;
 var SCORE = 0;
 
 // constants for game play
@@ -198,7 +199,7 @@ function FriendlySpaceShip(x, y, width, height) {
       this.x = Math.max(this.x - FRIENDLY_SPEED, 0);
     }
     if (keyPressedState.right) {
-      this.x = Math.min(this.x + FRIENDLY_SPEED, canvasWidth * 0.9);
+      this.x = Math.min(this.x + FRIENDLY_SPEED, canvasWidth*0.95 );
     }
     if (keyPressedState.up) {
       this.y = Math.max(this.y - FRIENDLY_SPEED, topY);
@@ -229,26 +230,10 @@ function EnemySpaceShip(x, y, width, height) {
       return;
     }
     enemy = new Image();
-    enemy.src = "items/enemy.png";
+    enemy.src = EnemyPic;
     context.drawImage(enemy, this.x, this.y, 60,80);
   };
-  // this.draw = function () {
-  //   if(this.isAlive==false){
-  //     return;
-  //   }
-  //   context.fillStyle = "red";
-  //   context.beginPath();
 
-  //   context.arc(
-  //     this.x + width / 2,
-  //     this.y + height / 2,
-  //     this.width / 10,
-  //     0,
-  //     2 * Math.PI,
-  //     false
-  //   );
-  //   context.fill();
-  // };
   
   this.move = function () {
     if (times2>0 && speedTime - 5 == timeLeft){
@@ -257,7 +242,7 @@ function EnemySpaceShip(x, y, width, height) {
       // speedTime-=5;
     }
     if (EnemyMove == "right") {
-      this.x = Math.min(this.x + ENEMY_SPEED, canvasWidth * 0.9);
+      this.x = Math.min(this.x + ENEMY_SPEED, canvasWidth*0.95 );
     } else if (EnemyMove == "left") {
       this.x = Math.max(this.x - ENEMY_SPEED, 0);
     }
@@ -278,20 +263,7 @@ function FriendlyFire(x, y, width, height) {
           FIRE_COUNT++;
     }
     if(this.isAlive==false)return;
-    // playerFire = new image();
-    // playerFire.src = "/items/playerFire.png";
-    // context.drawImage(playerFire,this.x, this.y, width, height);
-    // context.fillStyle = "yellow";
-    // context.beginPath();
-    // context.arc(
-    //   this.x + width / 2,
-    //   this.y + height / 2,
-    //   this.width / 10,
-    //   0,
-    //   2 * Math.PI,
-    //   false
-    // );
-    // context.fill();
+
     context.drawImage(this.img, this.x, this.y, 30, 30);
 
     for (let i = 0; i < NumRows; i++) {
@@ -339,7 +311,7 @@ function EnemyFire(x, y, width, height){
        
         friendly_ship.FIRE_ARR=friendly_ship.FIRE_ARR.filter((item)=>item!=this);
         friendly_ship.x =  0.8 * Math.random() * canvasWidth;
-        friendly_ship.y = canvasHeight-153;
+        friendly_ship.y = floorY;
       }
     }
     // context.fillStyle = "black";
@@ -461,15 +433,16 @@ function resetElements() {
   keyPressedState.up = false;
   keyPressedState.down = false;
   
+  
   document.getElementById("Score").style.display="flex";
-  document.getElementById("Score").innerHTML="Score:"+SCORE;
+  document.getElementById("Score").innerHTML="<img src='items/trophy.png' width='20' height='20'> Score:"+SCORE;
 
 
   document.getElementById("playerhp").style.display="flex";
-  document.getElementById("playerhp").innerHTML= "Player HP: " +playerHp;
+  document.getElementById("playerhp").innerHTML= "<img src='items/heartIcon.png' width='20' height='20'> Player HP: " +playerHp;
 
   document.getElementById("timer").style.display="flex";
-  document.getElementById("timer").innerHTML= "Time left: " +timeLeft;
+  document.getElementById("timer").innerHTML= "<img src='items/clock.png' width='20' height='20'> Time left: " +timeLeft;
 
 
   friendly_ship = new FriendlySpaceShip(
@@ -579,14 +552,14 @@ function updatePositions() {
   }
   else{
     document.getElementById("Score").style.display="flex";
-    document.getElementById("Score").innerHTML="Score:"+SCORE;
+    document.getElementById("Score").innerHTML="<img src='items/trophy.png' width='20' height='20'> Score:"+SCORE;
   
   
     document.getElementById("playerhp").style.display="flex";
-    document.getElementById("playerhp").innerHTML= "Player HP: " +playerHp;
+    document.getElementById("playerhp").innerHTML= "<img src='items/heartIcon.png' width='20' height='20'> Player HP: " +playerHp;
   
     document.getElementById("timer").style.display="flex";
-    document.getElementById("timer").innerHTML= "Time left: " +timeLeft;  
+    document.getElementById("timer").innerHTML= "<img src='items/clock.png' width='20' height='20'> Time left: " +timeLeft;  
   }
   
   friendly_ship.move();
@@ -709,8 +682,9 @@ function addScore(game, score, msg) {
     canvas.style.display="none";
   }
   muteDivs();
-  scores.push({ game, score,msg }); // Add game and score as an object to the scores array
-  updateScoreboard(game,score,msg);
+  const timestamp = new Date().getTime();
+  scores.push({ game, score,msg , timestamp}); // Add game and score as an object to the scores array
+  updateScoreboard();
   document.getElementById("scoreboard").style.display="flex";
 }
 
@@ -728,9 +702,17 @@ function addScore(game, score, msg) {
     while (scoreTable.rows.length > 1) {
       scoreTable.deleteRow(1);
     }
-
+    // Find the latest game score based on timestamp
+    let latestTimestamp = 0;
+    let latestIndex = -1;
+    scores.forEach((score, index) => {
+      if (score.timestamp > latestTimestamp) {
+        latestTimestamp = score.timestamp;
+        latestIndex = index;
+      }
+    });
     // Add the sorted scores to the score table
-    scores.forEach((score) => {
+    scores.forEach((score ,index) => {
       const newRow = scoreTable.insertRow();
       const gameCell = newRow.insertCell();
       const scoreCell = newRow.insertCell();
@@ -738,7 +720,12 @@ function addScore(game, score, msg) {
       gameCell.textContent = score.game;
       scoreCell.textContent = score.score;
       msgCell.textContent = score.msg;
+
+      if (index === latestIndex) {
+        newRow.classList.add("highlight");
+      }
     });
+    
   }
 
   function restartGame(){
@@ -812,6 +799,7 @@ function gameSettings(timelimitt, shoot){
   const fireKeyEventCode = document.getElementById("shootlabel").innerHTML;
   const fireKeyCode = keyCodeMap[fireKeyEventCode];
   FIRE_KEY=fireKeyCode;
+  EnemyPic = document.getElementById("playerimage").value;
   timeLeft = timelimit * 60;
   newTime = timelimit * 60;
   // event.stopPropagation();
@@ -971,7 +959,7 @@ function moveEnemyShips() {
   if (
     EnemyMove == "right" &&
     enemy_ships[0][NumCols - 1].x + enemy_ships[0][NumCols - 1].width >=
-      canvasWidth - 60
+      canvasWidth - 30
   ) {
     EnemyMove = "left";
   } else if (EnemyMove == "left" && enemy_ships[0][0].x <= 0) {

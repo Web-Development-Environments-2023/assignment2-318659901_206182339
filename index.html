@@ -114,15 +114,15 @@
     <div class="Game" id="Game" style="display: none">
       <!-- <h1 style="text-align: center; padding: 20px">Shooting Tunes</h1> -->
 
-      <table>
+      <table style="width: 98%; height: 85%;">
         <tr>
-          <td class="settings">
-            <table>
+          <td class="settings"  style="max-width: 10%; width: 10%; padding: 10px; ">
+            <table >
               <tr>
-                <td><button id="startButton">Start Game</button></td>
+                <td><button id="startButton" style="width: 100%;">Start Game</button></td>
               </tr>
               <tr>
-                <td><button id="stopButton">Stop Game</button></td>
+                <td><button id="stopButton" style="width: 100%;">Stop Game</button></td>
               </tr>
 
               <tr>
@@ -135,7 +135,7 @@
             </table>
           </td>
           <td class="screen" style="height: 106vh; ">
-            <canvas id="theCanvas" style="width: 180vh; height: 85%;"></canvas>
+            <canvas id="theCanvas" style="width: 100%; height: 85%;"></canvas>
           </td>
         </tr>
       </table>
@@ -151,11 +151,15 @@
      Hello!
      <br/>
      We are Michal Alhindi and Sean Hacmon. <br/>
-     We made the "Space Invaders" game. In the Configuration menu, you can decide the the time limit for the game,<br/>
-     and also decide what key to shoot in the keyboard.<br/>
+     We made the "Shooting Tunes" game. In the Configuration menu, you can decide the the time limit for the game,<br/>
+     decide what key to shoot from the keyboard, and also choose your enemy.<br/>
      Time left, player lives and score are shown in the game canvas.<br/>
-      We used the JQuery. <br/>
-      We did have some issues during the programming of the game, ......<br/>
+      We also added "Stop Game" button, for those who want to stop the game without the need to start over. <br/>
+      (Stopping the game and start a new game do not reserved in the game scoreboard)<br/>
+      We added some sounds:the game backtrack of Looney Tunes theme song, sound when you lose, sound if you are <br/>
+      a champion, and also hit sounds for the shooting. <br/>
+      We did have some issues during the developing of the game, such as different bugs with event listeners,  <br/>
+      and had some trouble with the key handlers at first but then fixed the issue.<br/>
       Hope you enjoy!
            </font>
         </p>
@@ -163,6 +167,7 @@
       </form>
     </dialog>
     <div id="Configuration" style="display: none">
+      <h1>Choose your game settings:</h1>
        <!-- <form id="configForm" onsubmit="LoadGame()"> -->
         <form id="configForm" onsubmit="gameSettings(timelimit.value, shootlabel.innerHTML)">
         <label for="timelimit">Time limit:</label>
@@ -183,14 +188,17 @@
         <button onclick="assignKey()">Assign key</button>
         <label id="shootlabel">Space</label>
         <label id="listeninglabel" style="visibility: hidden;">Assigning key...</label><br/><br/>
-
+        <label for="playerimage">Choose your enemy:</label><br/>
+        <select id="playerimage" onchange="updatePlayerImage()">
+          <option value="items/enemy.png">Marvin the Martian</option>
+          <option value="items/enemy2.png">Tazmanian Devil</option>
+          <option value="items/enemy3.png">Elmer Fudd</option>
+         
+        </select>
+        <img id="playerimg" src="items/enemy.png" width="70" height="100"><br/><br/>
+    
         <script>
-          //   const shootchange = document.querySelector('#shootchange');
-          // shootchange.addEventListener('click', () => {
-          //     event.preventDefault();
-          //     document.getElementById("listeninglabel").style.visibility = "visible";
-          //   document.addEventListener('keydown', keydownListener);
-          // });
+      
           function assignKey() {
             event.preventDefault();
             document.getElementById("listeninglabel").style.visibility = "visible";
@@ -199,30 +207,18 @@
             document.getElementById("shootlabel").innerHTML = selectedKey;
           }
         </script>
-
-        <!-- <label for="shootchange" id="shootlabel">Space</label>
-        <button id="shootchange">Assign key</button>
-        <label for="shootchange" id="listeninglabel" style="visibility: hidden;">  Assigning key...</label><br/><br/>
-
         <script>
-          function keydownListener(event) {
-            event.preventDefault();                        
-            if (event.keyCode !== 37 && event.keyCode !== 38 && event.keyCode !== 39 && event.keyCode !== 40) {                 
-              document.getElementById("shootlabel").innerHTML = event.code;
-              document.removeEventListener('keydown', keydownListener);
-              document.getElementById("listeninglabel").style.visibility = "hidden";
-            }
+          // Update the player image based on the selected option in the dropdown menu
+          function updatePlayerImage() {
+            const playerImageSelect = document.getElementById("playerimage");
+            const playerImage = document.getElementById("playerimg");
+            const selectedOption = playerImageSelect.options[playerImageSelect.selectedIndex];
+            playerImage.src = selectedOption.value;
           }
-        
-          const shootchange = document.querySelector('#shootchange');
-          shootchange.addEventListener('click', () => {
-              event.preventDefault();
-              document.getElementById("listeninglabel").style.visibility = "visible";
-            document.addEventListener('keydown', keydownListener);
-          });
-        </script> -->
+        </script>
+   
                         
-        <input type="reset" value="Default Setting" onclick="shootlabel.innerHTML='Space'"><br/>
+        <input type="reset" value="Default Setting" onclick="shootlabel.innerHTML='Space' ;playerimage.value= 'items/enemy.png' ; updatePlayerImage()"><br/>
         <input type="submit" id="submitplay" value="Play!">
        
     </form>
@@ -232,7 +228,7 @@
       <h1>Game Scoreboard</h1>
       <table id="scoreTable" style="color: azure; width:80%; height: 300px;">
           <tr>
-              <th>Game</th>
+              <th>Player</th>
               <th>Score</th>
               <th>Result</th>
           </tr>
@@ -249,7 +245,7 @@
       href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css"
     />
     <footer id="footer" class="footer">
-      <p> all rights reserved to Sean and Michal.</p>
+      <p> All rights reserved to Sean Hacmon and Michal Alhindi. To contact us: alhindim@post.bgu.ac.il or hacmons@post.bgu.ac.il</p>
     </footer>
     <script>
       $(document).ready(function () {
