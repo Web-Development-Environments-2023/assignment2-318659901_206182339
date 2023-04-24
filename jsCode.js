@@ -48,6 +48,7 @@ var youLost = new Audio("items/daffy23.mp3");
 var champion = new Audio("items/daffy119.mp3");
 var gameMusic = new Audio("items/sounds/Looney-Tunes-theme-song.mp3")
 gameMusic.loop=true;
+gameMusic.volume=0.4;
 //users and passswords
 var user1 = {
   password: "testuser",
@@ -468,6 +469,10 @@ function resetElements() {
 
 // reset all the screen elements and start a new game
 function newGame() {
+  if (inGame==true){
+    stopGame();
+  }
+  inGame = true;
   // background = new image();
   // background.src = "items/background.png"
   gameMusic.currentTime=0;
@@ -478,7 +483,7 @@ function newGame() {
   intervalTimer = window.setInterval( updatePositions, TIME_INTERVAL );
   resetElements();
   stopTimer();
-  inGame = true;
+  
   startTimer();
 } // end function newGame
 function stopGame() {
@@ -671,16 +676,23 @@ function showGameOverDialog(message)
 
 
 function addScore(game, score, msg) {
-  stopTimer();
+
+  updatePositions();
+
+ 
   document.getElementById("Score").style.display="none";
   document.getElementById("playerhp").style.display="none";
   document.getElementById("timer").style.display="none";
-  // document.getElementById("Configuration").style.display = "none";
-  window.clearInterval( intervalTimer );
-  inGame = false;
   if(canvas!=undefined){
     canvas.style.display="none";
   }
+  // document.getElementById("Configuration").style.display = "none";
+  stopTimer();
+  // window.clearInterval( intervalTimer );
+  inGame = false;
+  // if(canvas!=undefined){
+  //   setTimeout(function() {canvas.style.display="none";},900);
+  // }
   muteDivs();
   const timestamp = new Date().getTime();
   scores.push({ game, score,msg , timestamp}); // Add game and score as an object to the scores array
@@ -974,28 +986,30 @@ function moveEnemyShips() {
 
 function endGame(){
   gameMusic.pause();
+  
   let username = document.getElementById("Login_username").value;
   if (SCORE == 250){
     champion.pause();
     champion.play();
     // alert("Champion");
     if (username != null){
-      addScore(users[username].firstname, SCORE,"Champion");
+      setTimeout(function() { addScore(users[username].firstname, SCORE,"Champion");},500);
     }
     else{
-      addScore(user1.firstname, SCORE,"Champion");
+      setTimeout(function() {addScore(user1.firstname, SCORE,"Champion");},500)
     }
   }
   else if (playerHp == 0)
   {
     youLost.pause();
     youLost.play();
+   
     // alert("You Lost");
     if (username != null){
-      addScore(users[username].firstname, SCORE,"You Lost");
+      setTimeout(function() {addScore(users[username].firstname, SCORE,"You Lost");},500);
     }
     else{
-      addScore(user1.firstname, SCORE,"You Lost");
+      setTimeout(function() {addScore(user1.firstname, SCORE,"You Lost");},500);
     }
   }
   return;
