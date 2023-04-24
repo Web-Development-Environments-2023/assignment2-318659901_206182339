@@ -48,7 +48,7 @@ var youLost = new Audio("items/daffy23.mp3");
 var champion = new Audio("items/daffy119.mp3");
 var gameMusic = new Audio("items/sounds/Looney-Tunes-theme-song.mp3")
 gameMusic.loop=true;
-gameMusic.volume=0.4;
+gameMusic.volume=0.2;
 //users and passswords
 var user1 = {
   password: "testuser",
@@ -826,13 +826,9 @@ function gameSettings(timelimitt, shoot){
 
 function LoadGame() {
   muteDivs();
-  // document.getElementById("Login").style.display = "none";
-  // document.getElementById("SignUp").style.display = "none";
-  // document.getElementById("Welcome").style.display = "none";
-  // document.getElementById("Configuration").style.display = "none";
-
   document.getElementById("Game").style.display = "flex";
   document.getElementById("footer").style.display= "none";
+  instructions();
   if (canvas!=undefined){
     canvas.style.display="none"
   }
@@ -1013,6 +1009,32 @@ function endGame(){
     }
   }
   return;
+};
+
+function instructions(){
+  document.querySelector("#instructions").showModal();
+  document.getElementById("instructions").style.display = "flex";
+  window.addEventListener("keydown", function(event) {
+    if (event.keyCode === 27) {
+      document.getElementById("instructions").style.display = "none";
+    }
+});
+  const dialog = document.getElementById('instructions');
+  const dialogCloseButton = document.getElementById('instructionsClose');
+
+  // Add event listener to close the dialog when clicking outside of it
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) {
+      document.getElementById("instructions").style.display = "none";
+      dialog.close();
+    }
+  });
+  // Add event listener to close the dialog when clicking on the "X" button
+  dialogCloseButton.addEventListener('click', () => {
+    document.getElementById("instructions").style.display = "none";
+    dialog.close();
+  });
+
 };
 
 
