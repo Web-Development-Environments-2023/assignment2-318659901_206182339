@@ -874,7 +874,7 @@ function submitSignUp() {
   let lastname = document.getElementById("SignUp_lastname").value;
 
   if (
-    checkSetUp(username, password, email, firstname, lastname, confirmPassword)
+    checkSetUp(username, password, email, firstname, lastname, confirmPassword, birthday)
   ) {
     users[username] = {
       password: password,
@@ -895,8 +895,16 @@ function checkSetUp(
   email,
   firstname,
   lastname,
-  confirmPassword
+  confirmPassword,
+  birthday
 ) {
+  //check for empty inputs
+    
+    if (!birthday || !username || !password ||!firstname||!lastname||!confirmPassword|| !email){
+      alert("One or more input field are missing.")
+      return false;
+    }
+
   // check if password includes numbers and letters (at least 8 characters)
 
   if (users[username] != undefined) {
@@ -936,6 +944,7 @@ function checkSetUp(
     alert("Passwords do not match.");
     return false;
   }
+
   return true;
 }
 
