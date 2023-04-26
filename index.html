@@ -16,10 +16,6 @@
     <link href="https://fonts.cdnfonts.com/css/games" rel="stylesheet"> 
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Play" />
 
-    <!-- <style>
-      @import url('https://fonts.cdnfonts.com/css/gibson');
-</style> -->
-
                 
    
   </head>
@@ -165,14 +161,16 @@
      We made the "Shooting Tunes" game. In the Configuration menu, you can decide the the time limit for the game,<br/>
      decide what key to shoot from the keyboard, and also choose your enemy.<br/>
      Time left, player lives and score are shown in the game canvas.<br/>
-      We also added "Stop Game" button, for those who want to stop the game without the need to start over. <br/>
+     When you click on play after the game settings, you will see the game instructions in a dialog. <br/>
+      We also added "Stop Game" button, for those who want to stop the game without the need to start a new one. <br/>
       (Stopping the game and start a new game do not reserved in the game scoreboard)<br/>
       We added some sounds:the game backtrack of Looney Tunes theme song, sound when you lose, sound if you are <br/>
       a champion, and also hit sounds for the shooting. <br/>
+      We used jquery for some of our functionality, and some external fonts links. <br/>
       We did have some issues during the developing of the game, such as different bugs with event listeners,  <br/>
       and had some trouble with the key handlers at first but then fixed the issue.<br/>
       Hope you enjoy!
-           </font>
+           
         </p>
 
       </form>
@@ -248,19 +246,23 @@
         <button id="previousButton" value="Return">Return</button>
       </tr>
     </div>
-    <dialog id="instructions" style="display: none; background-image: url('items/wallpaper.jpg'); background-size: cover; background-position: center;">
+    <dialog id="instructions" style="display: none; background-image: url('items/light-purple-color.png'); background-size: cover; background-position: center;">
       <form method="dialog">
         <button id="instructionsClose" type="button">X</button><br /><br >
-        <h1 style="font-family: 'Games', sans-serif; color: black;">instructions</h1>
+        <h1 style="font-family: 'Games', sans-serif; color: black;">Instructions</h1>
         <p id="dialogText" style="font-family: 'Play', sans-serif; color: black;">
         
-     <br/>
-      Help BucksBunny to kill all the enemys,<br/>
-      Using the shooting key and get the highest score in quickest time. <br/>
-      Key Arrows : Up   Down   left  Right.<br/>
-      Life Points : 3<br/> 
-    
-           </font>
+     
+      Help Bugss Bunny to kill all the enemys with his carrots!<br/>
+      Use the shooting key you chose, and get the highest score in the time you set. <br/>
+      Every enemy shot increase your score: 5 points to the first close row,<br/>
+      10 points to the third row, 15 points to the second row, and 20 for the last row.<br/>
+      When the time goes by, the enemies will increase their speed. <br/>
+      Key Arrows : Up, Down, Left , Right.<img src='items/keyarrows.png' width='68' height='50'> <br/>
+      Life Points : 3 <img src='items/heartIcon.png' width='20' height='20'><br/> 
+      You can stop or start the game any time. <br/>
+      Good luck!
+           
         </p>
 
       </form>

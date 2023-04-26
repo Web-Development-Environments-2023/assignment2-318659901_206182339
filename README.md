@@ -2,7 +2,7 @@
 
 # Assignment 2
 
-## students
+## students:
 Michal Alhindi 318659901
 Sean Hacmon 206182339
 
