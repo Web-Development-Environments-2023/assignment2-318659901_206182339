@@ -221,18 +221,67 @@ function FriendlySpaceShip(x, y, width, height) {
   };
 }
 
-function EnemySpaceShip(x, y, width, height) {
+function EnemySpaceShip(x, y, width, height,color) {
   this.isAlive = true;
   SpaceShip.call(this, x, y, width, height);
   this.width = 80;
   this.height = 100;
+  
   this.draw = function () {
     if(this.isAlive==false){
       return;
     }
+    var selectElement = document.getElementById("playerimage");
+    var selectedOption = selectElement.selectedOptions[0];
+    var id = selectedOption.getAttribute("id");
+    if(id=="1"){
+      if(color=="orig"){
+        EnemyPic=document.getElementById("playerimage").value;
+      }
+
+      if(color=="pink"){
+        EnemyPic= "items/redenemy.png";
+      }
+      if(color=="blue"){
+        EnemyPic= "items/blueenemy.png";
+      }
+      if(color=="yellow"){
+        EnemyPic= "items/yellowenemy.png";
+      }
+    }
+    if(id=="2"){
+      if(color=="orig"){
+        EnemyPic=document.getElementById("playerimage").value;
+      }
+      if(color=="pink"){
+        EnemyPic="items/redenemy1.png"
+      }
+      if(color=="blue"){
+        EnemyPic= "items/blueenemy1.png";
+      }
+      if(color=="yellow"){
+        EnemyPic= "items/yellowenemy1.png";
+      }
+    }
+    if(id=="3"){
+      if(color=="orig"){
+        EnemyPic=document.getElementById("playerimage").value;
+      }
+      if(color=="pink"){
+        EnemyPic="items/pinkenemy2.png"
+      }
+      if(color=="blue"){
+        EnemyPic= "items/blueenemy2.png";
+      }
+      if(color=="yellow"){
+        EnemyPic= "items/yellowenemy2.png";
+      }
+    }
     enemy = new Image();
     enemy.src = EnemyPic;
+
     context.drawImage(enemy, this.x, this.y, 60,80);
+   
   };
 
   
@@ -455,14 +504,27 @@ function resetElements() {
   enemy_ships = Array(NumRows)
     .fill()
     .map(() => Array(NumCols));
+  let color;
   for (let i = 0; i < NumRows; i++) {
+    if(i==0){
+      color="orig";
+    }
+    if(i==1){
+      color="blue";
+    }
+    if(i==2){
+      color="pink";
+    }
+    if(i==3){
+      color="yellow";
+    }
     for (let j = 0; j < NumCols; j++) {
       enemy_ships[i][j] = new EnemySpaceShip(
         j * ((canvasWidth * WidthDistanceFactor) / NumCols),
         i * (canvasHeight / NumRows) * HeightEnemy,
         (canvasWidth * WidthDistanceFactor) / NumCols,
-        (canvasHeight * HeightEnemy) / NumRows
-      );
+        (canvasHeight * HeightEnemy) / NumRows,
+        color);
     }
   }
 } // end function resetElements
